@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{proposition}{Proposition}
+
+\title{Module 2: Basic Probability}
+\author{Mathematical Models of Infectious Diseases}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Sample spaces and events}
+
+\begin{definition}
+An \emph{experiment} is a process with uncertain outcome. The
+\emph{sample space} $\Omega$ is the set of all possible outcomes. An
+\emph{event} is a subset $A\subseteq\Omega$.
+\end{definition}
+
+\begin{example}
+A susceptible individual has one contact with an infectious person.
+\[
+\Omega=\{\text{infected},\ \text{not infected}\}.
+\]
+$A=\{\text{infected}\}$ is an event.
+\end{example}
+
+\section{Set operations on events}
+
+\begin{itemize}
+  \item \textbf{Union} $A\cup B$: ``$A$ or $B$ occurs.''
+  \item \textbf{Intersection} $A\cap B$: ``$A$ and $B$ occur.''
+  \item \textbf{Complement} $A^c$: ``$A$ does not occur.''
+  \item \textbf{Disjoint}: $A\cap B=\emptyset$ ($A$ and $B$ cannot occur together).
+\end{itemize}
+
+\begin{example}
+$A=\{$infected with strain 1$\}$, $B=\{$infected with strain 2$\}$.
+\begin{itemize}[nosep]
+  \item $A\cup B$: infected with at least one strain.
+  \item $A\cap B$: co-infected with both strains.
+  \item $A^c$: not infected with strain 1.
+\end{itemize}
+\end{example}
+
+\section{The probability function}
+
+\begin{definition}[Axioms of probability]
+$P$ assigns to each event $A\subseteq\Omega$ a number $P(A)\in[0,1]$ such that
+\begin{itemize}[nosep]
+  \item $P(\Omega)=1$;
+  \item for disjoint events $A,B$, $\ P(A\cup B)=P(A)+P(B)$.
+\end{itemize}
+\end{definition}
+
+Interpretation: $P(A)$ is the long-run fraction of times $A$ occurs (e.g. $P(\text{infection})=0.3$ means 30\% of exposed contacts result in infection).
+
+\section{Probability of the complement}
+A very useful identity is $\Pr(A^c) = 1-P(A)$.
+
+%% \begin{proposition}[Addition law]
+%% $P(A\cup B) = P(A)+P(B)-P(A\cap B)$.
+%% \end{proposition}
+
+\section{Independence}
+
+\begin{definition}
+Events $A$ and $B$ are \emph{independent} if
+\[
+P(A \cap B) = P(A)\,P(B).
+\]
+\end{definition}
+
+Interpretation: knowing that some of the events occurred gives no information about whether the others occurred.
+
+\begin{example}
+A susceptible individual has $n$ contacts. Each contact independently transmits infection with probability $c$. Let $A_i=\{\text{contact } i \text{ does not transmit infection}\}$, so $P(A_i)=1-c$. Avoiding infection on all $n$ contacts is the event $A_1\cap\cdots\cap A_n$, so by independence
+\[
+P(\text{avoid infection}) = \prod_{i=1}^n P(A_i) = (1-c)^n.
+\]
+\end{example}
+
+\section{Random variables}
+
+\begin{definition}
+A \emph{random variable} $X$ is a function $X:\Omega\to\mathbb{R}$ assigning a number to each outcome.
+\end{definition}
+
+\begin{example}
+$T=$ time until recovery.
+\end{example}
+
+\begin{definition}
+The \emph{density} (pdf) of $X$ is a function $f\ge 0$ with $\displaystyle\int_{-\infty}^\infty f(x)\,dx=1$ such that
+\[
+P(a\le X\le b)=\int_a^b f(x)\,dx.
+\]
+The \emph{expectation} is $E[X]=\int x f(x)\,dx$.
+\end{definition}
+
+\section{The exponential random variable}
+
+Used to model waiting times: time to recovery, time until next contact, incubation period.
+
+\begin{definition}
+$T$ has an \emph{exponential distribution with rate $\lambda>0$}, written $T\sim\text{Exp}(\lambda)$, if
+\[
+f(t)=\lambda e^{-\lambda t}, \qquad t\ge 0.
+\]
+\end{definition}
+
+The \emph{survival function} is the probability of not yet having recovered by time $t$:
+\[
+S(t) = P(T>t) = \int_t^\infty \lambda e^{-\lambda s}\,ds = e^{-\lambda t}.
+\]
+Mean: $E[T]=1/\lambda$.
+
+Interpretation: if $T$ is the infectious period and $T\sim\text{Exp}(\gamma)$, then $\gamma$ is the recovery \emph{rate} and $1/\gamma$ is the mean infectious period.
+
+\section{The memoryless property}
+
+\begin{definition}
+$T$ is \emph{memoryless} if
+\[
+P(T\ge t+s \mid T\ge t) = P(T\ge s) \qquad \text{for all } s,t\ge 0.
+\]
+\end{definition}
+
+Interpretation: given that an individual is still infectious at time $t$, the probability they remain infectious for $s$ more days does not depend on $t$. Time already spent infected gives no information about time remaining --- the recovery rate is constant, with no ``aging'' or ``wearing out.''
+
+\begin{proposition}
+If $T\sim\text{Exp}(\lambda)$, then $T$ is memoryless.
+\end{proposition}
+
+\begin{proof}
+Since $t+s\ge t$, the event $\{T\ge t+s\}\subseteq\{T\ge t\}$, so $\{T\ge t+s\}\cap\{T\ge t\}=\{T\ge t+s\}$. Hence
+\[
+P(T\ge t+s\mid T\ge t) = \frac{P(T\ge t+s)}{P(T\ge t)} = \frac{e^{-\lambda(t+s)}}{e^{-\lambda t}} = e^{-\lambda s} = P(T\ge s). \qquad\qed
+\]
+\end{proof}
+
+Consequence: the exponential is the \emph{only} continuous distribution with this property. This is why, in the simplest infectious disease models, an exponentially distributed infectious period corresponds to a constant per-capita recovery rate $\gamma$, independent of how long an individual has already been infected.
+
+\end{document}
