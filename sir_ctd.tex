@@ -1,0 +1,227 @@
+\chapter{The SIR Model, Continued}
+
+\section{The threshold phenomenon}
+
+Say the initial proportion of infecteds is $I(0) \ne 0$. Will the
+infection \emph{invade}? I.e.~will $I$ increase? Equivalently, does
+$\dot I>0$ hold?
+
+\[
+\dot I = \beta S I - \gamma I = I(\beta S - \gamma).
+\]
+So  $\dot{I} > 0$ if 
+\[
+\beta S - \gamma  > 0.
+\]
+We must have $\beta S - \gamma > 0$, or equivalently
+\[
+S > \frac{\gamma}{\beta}.
+\]
+So if $S<\gamma/\beta$ the infection cannot invade. The implication
+for vaccination strategies and herd immunity is immediate.
+
+\subsection{The basic reproduction number}
+What is $\beta/\gamma$? Recall $1/\gamma$ is the average time to
+recovery, i.e.\ the disease duration and $\beta$ is infections per
+individual per time unit (in a fully susceptible population). Hence
+$R_0$ is the expected number of secondary infections caused by a
+single infected individual introduced into an otherwise fully
+susceptible population. We denote it
+\[
+R_0 = \frac{\beta}{\gamma}
+\]
+
+
+\section{Demographics}
+We want to include births and deaths. Individuals are born into the
+susceptible class $S$ at rate $\mu$ (per unit of the whole population)
+and die at the same per-capita rate $\mu$ from every class, so
+population size is still fixed. The new equations are
+\begin{align*}
+\dot S &= \mu - \beta S I - \mu S, \\
+\dot I &= \beta S I - \gamma I -\mu I, \\
+\dot R &= \gamma I - \mu R.
+\end{align*}
+As before, $\dot S + \dot I + \dot R = 0$, so $S+I+R=1$ stays
+constant.
+
+\subsection{$R_0$ for an SIR model with demographics}
+With demography, an infected individual leaves the infected class
+either by recovering (rate $\gamma$) or by dying (rate $\mu$),
+independently. Recall that \emph{minimum} of two independent
+exponentials is exponential with the sum of rates, so the time spent
+infected is $\text{Exp}(\gamma+\mu)$.
+
+Using the same interpretation as before, $R_0$ is (contacts during
+infection) $\times$ (transmission probability per contact) with the
+mean infectious period $1/(\gamma+\mu)$:
+\[
+R_0 = \frac{\beta}{\gamma + \mu}.
+\]
+
+\section{Equilibria}
+We find equilibrium states by equating the derivatives to zero.
+
+\subsection{Equilibrium analysis for basic SIR model}
+
+Recall the basic SIR model:
+\begin{align*}
+\dot S &= -\beta S I, \\
+\dot I &= \beta S I - \gamma I, \\
+\dot R &= \gamma I.
+\end{align*}
+Set all three derivatives to zero. $\dot R = \gamma I = 0$ forces
+$I=0$ (since $\gamma>0$). Then  $\dot S = \dot{I} = 0$.
+
+So the equilibria are $(S,0,R)$ for $S+R=1$ (and, of course, $0\le
+S\le 1$). This is a \emph{disease-free equilibrium} (DFE).
+
+\subsection{Equilibrium analysis for SIR model with demographics}
+
+Recall the model with demography:
+\begin{align*}
+\dot S &= \mu - \beta S I - \mu S, \\
+\dot I &= \beta S I - \gamma I - \mu I, \\
+\dot R &= \gamma I - \mu R.
+\end{align*}
+Set all three derivatives to zero. From $\dot I=0$:
+$I[\beta S-(\gamma+\mu)]=0$, so either $I=0$ or
+$S=\dfrac{\gamma+\mu}{\beta}=\dfrac{1}{R_0}$.
+
+\paragraph{Disease-free equilibrium (DFE).} Then $\dot S=\mu(1-S)=0$
+forces $S=1$. Other compartments are empty.
+
+\paragraph{Endemic equilibrium (EE).} Take $\dot I=0$. If $I = 0$ we are at DFE. So assume $I > 0$. Then
+\[
+\dot{I} = 0 \Rightarrow \beta S^* = \gamma + \mu \Rightarrow S^* = \frac{\gamma +\mu}{\beta} = \frac{1}{R_0}.  
+\]
+Then
+\[
+I^* = \frac{\mu}{\gamma+\mu}\left(1-\frac{1}{R_0}\right)
+\]
+and
+\[
+R^* = \frac{\gamma}{\gamma+\mu}\left(1-\frac{1}{R_0}\right).
+\]
+So
+\[
+(S^*,I^*,R^*) = \left(\frac{1}{R_0},\ \ \frac{\mu}{\gamma+\mu}\Big(1-\frac{1}{R_0}\Big),\ \ \frac{\gamma}{\gamma+\mu}\Big(1-\frac{1}{R_0}\Big)\right).
+\]
+Note that this equilibrium is feasible (i.e.\ $I^*>0$) exactly when
+$R_0>1$.
+
+\section{Stability analysis}
+
+\subsection{Linearization}
+
+For a real function of one variable, near a point $x^*$:
+\[
+f(x^*+\delta x) \approx f(x^*) + \frac{df}{dx}(x^*)\,\delta x.
+\]
+In two dimensions a function takes two inputs and produces two
+outputs $(x,y)\mapsto (f(x,y),g(x,y))$. So:
+
+\begin{align*}
+f(x^*+\delta x,\,y^*+\delta y) &\approx f(x^*,y^*) + \frac{\partial f}{\partial x}\delta x + \frac{\partial f}{\partial y}\delta y \\
+g(x^*+\delta x,\,y^*+\delta y) &\approx g(x^*,y^*) + \frac{\partial g}{\partial x}\delta x + \frac{\partial g}{\partial y}\delta y.
+\end{align*}
+Collecting:
+\[
+\begin{pmatrix} f(x^*+\delta x,y^*+\delta y) \\ g(x^*+\delta x,y^*+\delta y) \end{pmatrix}
+\approx
+\begin{pmatrix} f(x^*,y^*) \\ g(x^*,y^*) \end{pmatrix}
++
+\begin{pmatrix} \partial f/\partial x & \partial f/\partial y \\ \partial g/\partial x & \partial g/\partial y \end{pmatrix}
+\begin{pmatrix} \delta x \\ \delta y \end{pmatrix}.
+\]
+
+\begin{definition}
+The \emph{Jacobian} of $(f,g)$ at $(x^*,y^*)$ is
+\[
+J(x^*,y^*) = \begin{pmatrix} \partial f/\partial x & \partial f/\partial y \\ \partial g/\partial x & \partial g/\partial y \end{pmatrix},
+\]
+\end{definition}
+So:
+\[
+\begin{pmatrix} f(x^*+\delta x,y^*+\delta y) \\ g(x^*+\delta x,y^*+\delta y) \end{pmatrix}
+\approx
+\begin{pmatrix} f(x^*,y^*) \\ g(x^*,y^*) \end{pmatrix}
++
+J(x^*, y^*) \begin{pmatrix} \delta x \\ \delta y \end{pmatrix}.
+\]
+
+Now, our goal is to linearize a dynamical system 
+\[
+\begin{pmatrix} \dot x \\ \dot y \end{pmatrix} = \begin{pmatrix} f(x,y) \\ g(x,y) \end{pmatrix}
+\]
+using the Jacobian. We linearize at an equilibrium point, $f(x^*,y^*)
+= g(x^*,y^*) = 0$ and let $x=x^*+\delta x$, $y=y^*+\delta y$. Then
+\begin{align*}
+  \begin{pmatrix}
+    \dot x \\ \dot y
+  \end{pmatrix} &= \begin{pmatrix} f(x^*,y^*) \\ g(x^*,y^*) \end{pmatrix} \\
+\end{align*}
+
+Since $x^*,y^*$ are constant, $\dot x=\dot{\delta x}$ and $\dot
+y=\dot{\delta y}$, so by the approximation above and using $f(x^*,y^*)
+= g(x^*,y^*) = 0$:
+\[
+\begin{pmatrix} \dot{\delta x} \\ \dot{\delta y} \end{pmatrix}
+\approx
+J(x^*,y^*)
+\begin{pmatrix} \delta x \\ \delta y \end{pmatrix}.
+\]
+Near an equilibrium, the dynamics of a small perturbation are
+therefore approximately \emph{linear}, governed entirely by the
+Jacobian.
+
+\paragraph{Why is this useful?}
+Stability of an equilibrium is ``stable'' determined by its
+eigenvalues. Roughly, all eigenvalues have to be
+negative\footnote{have negative real part.} for an equilibrium to be
+stable.
+
+\subsection{Linearization of SIR model}
+Here the variables are $S$ and $I$:
+\begin{align*}
+\dot S &= f(S,I) := \mu(1-S)-\beta SI \\
+\dot I &= g(S,I) := \beta SI - (\gamma+\mu)I\\ 
+\end{align*}
+The Jacobian is
+\[
+J(S,I) = \begin{pmatrix} -\mu-\beta I & -\beta S \\ \beta I & \beta S-(\gamma+\mu) \end{pmatrix}.
+\]
+
+
+\subsubsection{Linearization around the disease-free equilibrium (DFE)}
+In the disease-free equilibrium $I^*=0$ and $S^*=1$:
+\[
+J(S^*, I^*) = \begin{pmatrix} -\mu & -\beta \\ 0 & \beta-(\gamma+\mu) \end{pmatrix}
+\]
+Eigenvalues are:
+\[
+\lambda_1 = -\mu, \qquad \lambda_2 = \beta-(\gamma+\mu) = (\gamma+\mu)(R_0-1).
+\]
+$\lambda_1<0$ always; $\lambda_2<0 \iff R_0<1$. So the disease-free
+equilibrium is stable iff $R_0<1$.
+
+\subsubsection{Linearization around the endemic equilibrium (EE)}
+In the endemic equilibrium,
+\[
+(S^*,I^*,R^*) =
+\left(\frac{1}{R_0},\ \ \frac{\mu}{\gamma+\mu}\Big(1-\frac{1}{R_0}\Big),\ \ \frac{\gamma}{\gamma+\mu}\Big(1-\frac{1}{R_0}\Big)\right).
+ \]
+$\beta S^*=\gamma+\mu$ and $\beta
+I^*=\mu(R_0-1)$ and the Jacobian becomes
+\[
+J(S^*,I^*) = \begin{pmatrix} -\mu R_0 & -(\gamma+\mu) \\ \mu(R_0-1) & 0 \end{pmatrix},
+\qquad
+\operatorname{tr}J(S^*,I^*) = -\mu R_0, \qquad \det J(S^*,I^*) = \mu(\gamma+\mu)(R_0-1).
+\]
+For a $2\times 2$ matrix, both eigenvalues have negative real part iff
+$\operatorname{tr}<0$ and $\det>0$. Here $\operatorname{tr}J^*<0$
+always, and $\det J^*>0 \iff R_0>1$. So whenever the endemic
+equilibrium exists ($R_0>1$), it is automatically stable.
+
+\paragraph{Summary.}
+$R_0<1 \Rightarrow$ disease-free equilibrium is stable. $R_0>1 \Rightarrow$ endemic equilibrium is stable.

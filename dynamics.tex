@@ -1,0 +1,30 @@
+\documentclass[11pt]{book}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{proposition}{Proposition}
+
+\tikzset{compartment/.style={draw, minimum width=1cm, minimum height=1cm}}
+
+\title{Mathematical Models of Infectious Diseases}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\input{intro}
+\input{calculus}
+\input{basic_probability}
+\input{linear_algebra}
+\input{sir}
+\input{sir_ctd}
+
+\end{document}

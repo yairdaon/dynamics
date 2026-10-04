@@ -1,0 +1,83 @@
+\chapter{Linear Algebra}
+
+\section{Matrix-vector multiplication}
+
+A $2\times 2$ matrix $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$ acts on
+a vector $v=\begin{pmatrix}x\\y\end{pmatrix}$ by
+\[
+Av = x\begin{pmatrix}a\\c\end{pmatrix} + y\begin{pmatrix}b\\d\end{pmatrix}
+= \begin{pmatrix}ax+by\\cx+dy\end{pmatrix}.
+\]
+That is, $Av$ is the combination of $A$'s two columns, $\begin{pmatrix}a\\c\end{pmatrix}$ and $\begin{pmatrix}b\\d\end{pmatrix}$, weighted by $v$'s entries $x,y$.
+
+\section{The determinant as an area}
+
+Take two vectors in the plane, $u=(a,c)$ and $v=(b,d)$ --- the columns
+of $A$ from Section 1. They span a parallelogram.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+  \draw[->] (0,0) -- (4.5,0);
+  \draw[->] (0,0) -- (0,3.5);
+  \coordinate (O) at (0,0);
+  \coordinate (U) at (3,1);
+  \coordinate (V) at (1,2.5);
+  \coordinate (W) at ($(U)+(V)$);
+  \draw[thick,-{Stealth[]}] (O) -- (U) node[below right] {$u=(a,c)$};
+  \draw[thick,-{Stealth[]}] (O) -- (V) node[above left] {$v=(b,d)$};
+  \draw[dashed] (U) -- (W) -- (V);
+  \draw[fill=gray!20,opacity=0.5] (O)--(U)--(W)--(V)--cycle;
+  \draw[dotted] (0,0) rectangle (4,3.5);
+\end{tikzpicture}
+\end{center}
+
+Enclose the parallelogram in the axis-aligned bounding box of width
+$a+b$ and height $c+d$. The box consists of the parallelogram, two
+right triangles with legs $a,c$ (combined area $ac$), two right
+triangles with legs $b,d$ (combined area $bd$), and two $b\times c$
+rectangles (combined area $2bc$). So
+\[
+(a+b)(c+d) = \text{Area} + ac + bd + 2bc
+\quad\Longrightarrow\quad
+\text{Area} = ad - bc.
+\]
+
+\begin{definition}
+The \emph{determinant} of a matrix
+$A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$ is the \emph{signed} area
+spanned by $u=(a,c)$, $v=(b,d)$. 
+\end{definition}
+We had just saw that $\det A = ad-bc$.
+Geometrically: $\det A = 0$ exactly when the columns of $A$ are
+parallel --- the parallelogram they span is flat, with zero area. 
+
+\section{Eigenvalues of a $2\times 2$ matrix}
+
+\begin{definition}
+A nonzero vector $v$ is an \emph{eigenvector} of $A$ with
+\emph{eigenvalue} $\lambda$ if $Av = \lambda v$.
+\end{definition}
+
+Rearranging, $(A-\lambda I)v = 0$ for some $v\ne 0$. We saw that
+$(A-\lambda I)v$ is the combination of $(A-\lambda I)$'s two columns
+weighted by $v$'s entries; for a \emph{nonzero} $v$ to give $0$, that
+combination must be nontrivial, which is only possible if the two
+columns are parallel, i.e.
+\[
+\det(A-\lambda I) = 0.
+\]
+
+\paragraph{Useful fact.}
+The determinant is the product of eigenvalues, whereas the trace is
+their sum.
+
+\section{The determinant for a $3\times 3$ matrix}
+\[
+\det\begin{pmatrix}a_1&b_1&c_1\\a_2&b_2&c_2\\a_3&b_3&c_3\end{pmatrix}
+= a_1\det\begin{pmatrix}b_2&c_2\\b_3&c_3\end{pmatrix}
+- a_2\det\begin{pmatrix}b_1&c_1\\b_3&c_3\end{pmatrix}
++ a_3\det\begin{pmatrix}b_1&c_1\\b_2&c_2\end{pmatrix}.
+\]
+The same interpretations hold: the determinant is (signed) volume, the
+determinant is the product of eigenvalues, and the trace is the sum of
+eigenvalues.

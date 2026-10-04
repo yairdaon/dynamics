@@ -1,20 +1,4 @@
-\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,amsthm}
-\usepackage{enumitem}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
-
-\newtheorem{definition}{Definition}
-
-\tikzset{compartment/.style={draw, minimum width=1cm, minimum height=1cm}}
-
-\title{Module 3: The Basic SIR Model}
-\author{Mathematical Models of Infectious Diseases}
-\date{}
-
-\begin{document}
-\maketitle
+\chapter{The Basic SIR Model}
 
 \section{Compartments}
 
@@ -43,7 +27,7 @@ population size $N$ is assumed constant.
 \section{Recovery: an exponential process}
 
 Assume individual recovery happens at a constant rate $\gamma$, and
-for now ignore new infections. By Module 2, a constant recovery rate
+for now ignore new infections. By Basic Probability, a constant recovery rate
 means each individual's remaining infectious time $T$ is exponential:
 $T\sim\text{Exp}(\gamma)$.
 
@@ -64,7 +48,7 @@ Differentiating,
 So with recovery alone, $\dot Y = -\gamma Y$.
 
 \paragraph{What does $\gamma$ mean?}
-$\gamma$ is the per-capita recovery rate. By Module 2, the infectious
+$\gamma$ is the per-capita recovery rate. By Basic Probability, the infectious
 period is $T\sim\text{Exp}(\gamma)$, so the mean infectious period is
 $1/\gamma$. Example: if infected individuals recover after 5 days on
 average, $\gamma = 1/5\ \text{day}^{-1}$.
@@ -81,29 +65,29 @@ infections from first principles. Let $\kappa$ denote the number of
 contacts per time unit for a susceptible individual. So during a short
 time interval this individual has $\kappa \frac{Y}{N} \times \delta t$
 contacts with infecteds. We let
-$$
+\[
 c = \Pr(\text{transmission}|\text{contact with infected}).
-$$
+\]
 
 Hence $1-c$ is the complement (no transmission given a contact) and
 
-$$
+\[
 \Pr(\text{no infection during time $\delta t$}) = (1-c)^{\kappa \frac{Y}{N} \delta t}
-$$
+\]
 
 and so
 
 \begin{align*}
   \Pr(\text{infection during time $\delta t$})
   &= 1 - (1-c)^{\kappa \frac{Y}{N} \delta t} \\
-  &= 1 - e^{\beta \frac{Y}{N} \delta t} \quad  (\text{let $\beta:= -\kappa \log(1-c)$})\\
+  &= 1 - e^{-\beta \frac{Y}{N} \delta t} \quad  (\text{let $\beta:= -\kappa \log(1-c)$})\\
   &= 1 - (1-\beta \frac{Y}{N} \delta t) \quad  (\text{since $e^x \approx 1+x$ for small x})\\
   &= \beta \frac{Y}{N} \delta t  \\
 \end{align*}
 
 \begin{definition}
-The \emph{force of infection} (FOI) $\lambda(t)$ is
-the per-capita rate at which susceptibles become infected.
+The \emph{force of infection} (FOI) $\lambda(t)$ is the per-capita
+rate at which susceptibles become infected.
 \end{definition}
 
 It is clear that $\lambda(t) = \beta \frac{Y}{N}$. This specific form
@@ -115,9 +99,12 @@ multiplying by the number of susceptibles $X$:
 \end{align*}
 so the rate of new infections is
 \[
-\text{rate of new infections} =  \frac{\beta \frac{Y}{N} \delta t}{\delta t} X = \beta \frac{Y}{N} X.
+\text{rate of new infections} = \frac{\beta \frac{Y}{N} \delta
+  t}{\delta t} X = \beta \frac{Y}{N} X.
 \]
 
+
+\paragraph{What does $\beta$ mean?} See below.
 
 \paragraph{What assumptions did we make?}
 Contacts do not depend on the infection state of
@@ -151,74 +138,9 @@ two, the third follows. It is common to drop the $\dot R$ equation and
 recover $R=1-S-I$ when needed.
 
 
-
-
-\section{The basic reproduction number}
-
-Take the SIR model and suppose the population is entirely susceptibles
-and removed: $S+R=1$. We introduce a small number of infecteds, $I\ne
-0$ but $I\approx 0$. Will the infection \emph{invade}? This
-corresponds to $\dot I>0$.
-
-Recall
-\[
-\dot I = \beta S I - \gamma I = I(\beta S - \gamma).
-\]
-We ask when this is positive:
-\[
-I(\beta S - \gamma) > 0.
-\]
-Since $I\ne 0$ (albeit very small), we must have $\beta S - \gamma >
-0$, or equivalently
-\[
-S > \frac{\gamma}{\beta}.
-\]
-
-So if $S<\gamma/\beta$, i.e.\ $R>1-\gamma/\beta$, then the infection
-cannot invade. So we need to vaccinate a fraction
-\[
-1-\frac{\gamma}{\beta}
-\]
-of the population.
-
-What is $\beta/\gamma$? Recall $1/\gamma$ is the average time to
-recovery, i.e.\ the disease duration. Also
-\[
-\beta = -\kappa\log(1-c) = \kappa\log\!\left(\frac{1}{1-c}\right),
-\]
-so $\kappa/\gamma$ is the total number of contacts an infected
-individual has during their infectious period.
-
-\medskip
-\noindent\textbf{What is $\log\!\left(\dfrac{1}{1-c}\right)$?}
-Since $\log\!\left(\dfrac{1}{1-c}\right) = -\log(1-c)$, and from Module 1 (Calculus) we have $\log(1+x)\approx x$ for small $x$, taking $x=-c$ gives
-\[
-\log\!\left(\frac{1}{1-c}\right) = -\log(1-c) \approx c \qquad (c \text{ small}).
-\]
-
-Hence, for small $c$, $\beta\approx \kappa c$, and
-\[
-R_0 := \frac{\beta}{\gamma} \approx \frac{\kappa}{\gamma}\cdot c = (\text{contacts during infection}) \times (\text{transmission probability per contact}),
-\]
-i.e.\ $R_0$ is the expected number of secondary infections caused by a
-single infected individual introduced into an otherwise fully
-susceptible population.
-
-In particular, the vaccination fraction derived above can now be
-written as
-\[
-1-\frac{\gamma}{\beta} = 1-\frac{1}{R_0},
-\]
-the classic \emph{herd immunity threshold}: the fraction of the
-population that must be immune to stop an outbreak.
-
-Upon introducing a single infected individual into a completely
-susceptible population, $S(0)\approx 1$, so the invasion condition
-$S>\gamma/\beta$ becomes $1>\gamma/\beta$, i.e.
-\[
-R_0 > 1.
-\]
-The outbreak grows if and only if $R_0>1$.
-
-
-\end{document}
+\paragraph{What does $\beta$ mean?}
+If $S(0)\approx 1$ and $I(0) > 0$ then in one time unit we will have
+$\beta SI \approx \beta I$ new infections. So \emph{per individual} we
+will have $\beta$ new infections. Thus, $\beta$ is the number of new
+infections per individual per time unit that an infected individual
+can infect.

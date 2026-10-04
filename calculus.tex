@@ -1,20 +1,15 @@
-\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{enumitem}
+\chapter{Calculus}
 
-\title{Module 1: Calculus}
-\author{}
-\date{}
-
-\begin{document}
-\maketitle
-
-\section{Taylor series and exponentials}
+\section{Exponents and logarithms}
+The exponential function is
 \[
 e^x = 1 + x + \frac{x^2}{2} + \frac{x^3}{3!} + \cdots
 \]
-(A rule $e^a \cdot e^b = e^{a+b}$ was written and then crossed out.)
+The function $\log$ is its inverse:
+\[
+\log e^x = x
+\]
+
 
 For small $x$, truncating after the linear term gives the useful approximation
 \[
@@ -25,22 +20,10 @@ Since $\log$ is the inverse of $e^x$, the same approximation, read the other way
 \log(1+x) \approx x \qquad (x \text{ small}).
 \]
 
-Derivative of the exponential:
-\[
-\frac{d}{dx}e^x = e^x, \qquad \frac{d}{dx}e^{kx} = k\,e^{kx}.
-\]
-
-Two side-by-side examples building intuition for how a rate parameter $r$ governs exponential growth, by comparing consecutive powers (analogous to base 2):
-\[
-\frac{e^{r(x+1)}}{e^{rx}} = e^r
-\qquad\Longleftrightarrow\qquad
-\frac{2^{x+1}}{2^x} = 2,
-\]
-\[
-\frac{e^{r(x-1)}}{e^{rx}} = \frac{1}{e^r}
-\qquad\Longleftrightarrow\qquad
-\frac{2^{x-1}}{2^x} = \frac{1}{2}.
-\]
+%% Derivative of the exponential:
+%% \[
+%% \frac{d}{dx}e^x = e^x, \qquad \frac{d}{dx}e^{kx} = k\,e^{kx}.
+%% \]
 
 \section{The derivative as a linear approximation}
 \[
@@ -50,15 +33,7 @@ y+\Delta y \approx f(x+\Delta x) = f(x) + f'(x)\Delta x
 \]
 $f'(x)$ is called \emph{the derivative}; it is also written $\dfrac{dy}{dx}$.
 
-Margin note: state variables such as $Y(t), X(t)$ are functions of time.
-
 \section{The Fundamental Theorem of Calculus}
 \[
 \int_a^b f'(x)\,dx = f(b) - f(a).
 \]
-(Illustrated with a sketch of the area under $f'(x)$ between $a$ and $b$.)
-
-\bigskip
-\noindent\emph{Margin doodle (written in English in the original): ``1 little dot with a horse'' --- a personal mnemonic, not mathematical content.}
-
-\end{document}
