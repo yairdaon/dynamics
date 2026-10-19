@@ -1,0 +1,57 @@
+\chapter{Attractor Dimension}
+
+\section{What is a dimension}
+Spread points uniformly across the real line and count how many fall
+within a distance of $r$ from the origin. That number scales as $N(r) \sim r$.
+
+Spread points uniformly across the plane and count how many fall
+within a distance of $r$ from the origin. That number scales as $N(r) \sim r^2$.
+
+Spread points uniformly across space and count how many fall within a
+distance of $r$ from the origin. That number scales as $N(r) \sim r^3$.
+
+For any $D$ dimensional object, if we spread points uniformly in it
+and count how many are less than a distance $r$ from any particular
+point ---that number scales as $N(D) \sim r^D$.
+
+Say we obeserve points in $\mathbb{R}^n$. Count their number in $r$
+balls. Then
+\[
+N(r) \sim r^D \Rightarrow D \approx \frac{\log N(r)}{\log r}
+\]
+
+\section{Correlation dimension}
+
+\begin{definition}[Correlation sum]
+For points $\{x_i\}_{i=1}^N$ on the attractor,
+\[
+C(r) = \frac{1}{N^2}\#\{(i,j): \|x_i-x_j\|<r\}.
+\]
+\end{definition}
+As $r\to 0$, $C(r)\sim r^{D_C}$; the \emph{correlation dimension}
+$D_C$ is the slope of $\log C(r)$ vs.\ $\log r$ (Grassberger \&
+Procaccia, 1983).
+
+For the Olsen--Schaffer attractor (lagged $\log_{10} I$ --- raw $I$'s
+huge dynamic range, fine for viewing the attractor, washes out the
+scaling plateau here):
+
+\begin{center}
+\includegraphics[width=0.6\linewidth]{visualizations/correlation_dimension.pdf}
+\end{center}
+$D_C\approx 2.33$, close to Olsen \& Schaffer's own estimate
+($D_C\approx 2.52$ for this model).
+
+\section{Levina--Bickel MLE estimator}
+
+A second estimator, from the spacing of the $k$ nearest neighbors.
+For point $x_i$ with neighbor distances $T_1(x_i)\le\cdots\le T_k(x_i)$:
+\[
+\hat m_k(x_i) = \left[\frac{1}{k-1}\sum_{j=1}^{k-1}
+\log\frac{T_k(x_i)}{T_j(x_i)}\right]^{-1}.
+\]
+Average $\hat m_k(x_i)$ over $i$ and over a range of $k$ (here
+$k=10,\dots,20$) for stability (Levina \& Bickel, 2004). On the same
+attractor: $\hat D_{\mathrm{MLE}}\approx 2.48$ --- consistent with
+$D_C$ above.
+

@@ -1,0 +1,71 @@
+\chapter{Linear ODEs}
+
+\section{A single linear equation}
+\[
+\dot x = ax, \qquad x(0)=x_0.
+\]
+Solve: $\frac{d}{dt}\log x = \dot x/x = a$, so $\log x = \log x_0 + at$, i.e.
+\[
+x(t) = x_0 e^{at}.
+\]
+$a>0$: exponential growth. $a<0$: exponential decay. $a=0$: constant.
+
+\section{Why linearity matters}
+A system $\dot x = Ax$ ($x\in\mathbb{R}^n$, $A$ a matrix) is
+\emph{linear} in $x$. Its key property: if $x_1(t), x_2(t)$ both solve
+$\dot x = Ax$, so does any combination $c_1x_1+c_2x_2$, since
+\[
+\frac{d}{dt}(c_1x_1+c_2x_2) = c_1\dot x_1 + c_2\dot x_2 = c_1Ax_1+c_2Ax_2 = A(c_1x_1+c_2x_2).
+\]
+
+\section{Diagonal systems in two dimensions}
+A \emph{diagonal} system decouples into two copies of
+Section~1:
+\[
+\dot x = \lambda_1 x, \qquad \dot y = \lambda_2 y
+\quad\Longrightarrow\quad
+x(t)=x_0e^{\lambda_1 t},\ \ y(t) = y_0e^{\lambda_2 t}.
+\]
+The qualitative picture depends on the signs of $\lambda_1,\lambda_2$:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{visualizations/phase_portraits_real.pdf}
+\caption{Both negative: every trajectory decays to the origin
+  (\emph{stable node}). Both positive: every trajectory grows away
+  from it (\emph{unstable node}). Opposite signs: the origin attracts
+  along one axis and repels along the other (\emph{saddle}).}
+\end{figure}
+
+\section{Diagonal systems with complex eigenvalues}
+Take $A = \begin{pmatrix}a&-b\\b&a\end{pmatrix}$, i.e.\
+$\dot x = ax-by,\ \dot y = bx+ay$. Its eigenvalues solve
+$\det(A-\lambda I)=(a-\lambda)^2+b^2=0$, so $\lambda = a\pm ib$:
+complex. Set $z=x+iy$; then
+\[
+\dot z = \dot x+i\dot y = (ax-by)+i(bx+ay) = (a+ib)(x+iy) = (a+ib)z,
+\]
+the single linear equation of Section~1, now with complex $a+ib$.
+Its solution is $z(t) = z_0e^{(a+ib)t} = z_0e^{at}\big(\cos bt +
+i\sin bt\big)$: a rotation at rate $b$, scaled by $e^{at}$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{visualizations/phase_portraits_complex.pdf}
+\caption{$a<0$: spiral sink. $a=0$: pure rotation, a \emph{center}.
+  $a>0$: spiral source.}
+\end{figure}
+
+\section{Every linear system is diagonal, in the right coordinates}
+Let $A$ have eigenvectors $v_1,v_2$ (eigenvalues $\lambda_1,\lambda_2$,
+possibly complex conjugates) and $P=\begin{pmatrix}v_1&v_2\end{pmatrix}$
+as in the eigendecomposition $A=PDP^{-1}$. Write $x = Pu$, i.e.\ $u =
+P^{-1}x$ gives the coordinates of $x$ in the eigenbasis. Then
+\[
+\dot u = P^{-1}\dot x = P^{-1}Ax = P^{-1}APu = Du.
+\]
+So $u$ solves a \emph{diagonal} system --- Section~3 if
+$\lambda_1,\lambda_2$ are real, Section~4 if they are complex
+conjugates --- and $x(t) = Pu(t)$ translates the solution back to the
+original coordinates. Every linear system is, up to a change of basis,
+one of the pictures above.

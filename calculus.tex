@@ -5,7 +5,7 @@ The exponential function is
 \[
 e^x = 1 + x + \frac{x^2}{2} + \frac{x^3}{3!} + \cdots
 \]
-The function $\log$ is its inverse:
+The function $\log$ is the inverse of the exponential:
 \[
 \log e^x = x
 \]
@@ -20,6 +20,12 @@ Since $\log$ is the inverse of $e^x$, the same approximation, read the other way
 \log(1+x) \approx x \qquad (x \text{ small}).
 \]
 
+\subsection{Identities}
+\begin{align*}
+  \left (e^x\right )^y &= e^{xy} \\
+  \log x^y &= y \log x \\
+  e^{x+y} &= e^x e^y.
+\end{align*}
 %% Derivative of the exponential:
 %% \[
 %% \frac{d}{dx}e^x = e^x, \qquad \frac{d}{dx}e^{kx} = k\,e^{kx}.
@@ -27,13 +33,87 @@ Since $\log$ is the inverse of $e^x$, the same approximation, read the other way
 
 \section{The derivative as a linear approximation}
 \[
-y+\Delta y \approx f(x+\Delta x) = f(x) + f'(x)\Delta x
+y+\Delta y = y(x+\Delta x) \approx y(x) + y'(x)\Delta x
 \quad\Longrightarrow\quad
-\Delta y = f'(x)\Delta x.
+\Delta y = y'(x)\Delta x.
 \]
-$f'(x)$ is called \emph{the derivative}; it is also written $\dfrac{dy}{dx}$.
+$y'(x)$ is called \emph{the derivative}; it is also written $\dfrac{dy}{dx}$.
+
+\subsection{Multiplication by a scalar}
+What is the derivative of $z(x) = y(\alpha x)$? By the linear approximation:
+\[
+z + \Delta z \approx z(x) + z'(x) \Delta x
+\]
+But, on the other hand, by the definition of $z$:
+\begin{align*}
+  z + \Delta z &= z(x+\Delta x)\\
+  &= y(\alpha x + \alpha \Delta x) \\
+  &=y(\alpha x) + y'(\alpha x) \alpha \Delta x \\
+  &=z(x) + y'(\alpha x) \cdot  \alpha \Delta x
+\end{align*}
+Therefore
+\[
+z'(x) = \alpha y'(\alpha x)  
+\]
+We will see later what this means for change of units. In the
+meantime, note a specific example: $(e^{\alpha x})' = \alpha e^{\alpha x}$.
+\subsection{Other identities}
+\begin{align*}
+  &\text{Sum rule:}&& (y+z)'(x) = y'(x) + z'(x) \\
+  &\text{Product / Leibniz rule:}&&   (yz)'(x) = y'(x)z(x) + y(x)z'(x) \\
+  &\text{Chain rule:}&&   \left (y(z(x))\right )' = y'(z(x)) \cdot z'(x)
+\end{align*}
+
+
+
+%% Our main unit of measurement is time, denoted $t$, measured in (say)
+%% days. Let $I_d(t)$ be the number of infected individuals in a population
+%% after $t$ days have passed. Then $\dot{I}_d$ is the change in the number
+%% of infections per day, i.e.~the rate of new infections. How many new
+%% infections can we expect in a week? Clearly that number is $7
+%% \dot{I}_d$! But why? What has happened here?
+
+%% Denote $\tau = t / 7$ --- the number of \emph{weeks} passed. So
+%% the number of infected individuals after $\tau$ weeks is
+%% $I_w(\tau) = I_d(7\tau)$. Then the rate of new infections per
+%% \emph{week} is:
+%% \begin{align*}
+%%   \frac{d I_{w}}{d\tau} &=  7 \frac{d I_d}{d t} 
+%%  \end{align*}
+
+%% So we conclude: converting time to units $7$ times coarser multiplies
+%% the rate by $7$. In general, measuring $t$ in units $k$ times coarser
+%% (so $\tau = t/k$) multiplies any rate by $k$:
+%% \[
+%% \frac{dI_\star}{d\tau} = k\,\frac{dI}{dt}.
+%% \]
+
 
 \section{The Fundamental Theorem of Calculus}
 \[
-\int_a^b f'(x)\,dx = f(b) - f(a).
+\int_a^b y'(x)\,dx = y(b) - y(a).
 \]
+
+\subsection{Why this works}
+Partition $[a,b]$ into $n$ steps $a=x_0<x_1<\cdots<x_n=b$, each of
+width $\Delta x$. By the linear approximation of Section~2, each step
+changes $y$ by $\Delta y_i = y(x_{i+1})-y(x_i)\approx y'(x_i)\Delta x$. Summing the
+steps telescopes:
+\begin{align*}
+  \sum_{i=0}^{n-1} y'(x_i)\,\Delta x & \approx \sum_{i=0}^{n-1} \Delta y_i \\
+  &= \sum_{i=0}^{n-1}\underbrace{\big(y(x_{i+1})-y(x_i)\big)}_{\Delta y_i} \\
+  &= \big(y(x_1)-y(x_0)\big) + \big(y(x_2)-y(x_1)\big) + \cdots +
+  \big(y(x_n)-y(x_{n-1})\big)\\
+  &= y(x_n)-y(x_0) \\
+  &= y(b)-y(a).
+\end{align*}
+
+\begin{example}
+Since $\frac{d}{ds}\left(-\frac{1}{\lambda}e^{-\lambda s}\right) = e^{-\lambda s}$, for $\lambda>0$ (so that $e^{-\lambda s}\to 0$ as $s\to\infty$),
+\[
+\int_t^\infty e^{-\lambda s}\,ds
+= \left[-\frac{1}{\lambda}e^{-\lambda s}\right]_t^\infty
+= \left(-\frac{1}{\lambda}e^{-\lambda \cdot \infty} + \frac{1}{\lambda}e^{-\lambda t}\right)
+= \frac{1}{\lambda}e^{-\lambda t}.
+\]
+\end{example}

@@ -1,0 +1,198 @@
+\chapter{Simulating Infectious Diseases}
+
+\section{Euler's method}
+
+Recall $f(x+\Delta x) \approx f(x)+f'(x)\Delta x$. \emph{Euler's
+method} uses this repeatedly for $\dot x = f(x,t)$:  
+\[
+x_{t+\Delta t} \approx x_t + f(x_t,t)\,\Delta t,
+\]
+then repeat. For an SIR system, $x_t = (S,I,R)$:
+\begin{lstlisting}
+import numpy as np
+
+def euler(beta, gamma, dt, n):
+    S, I = np.zeros(n), np.zeros(n)
+    S[0], I[0] = 0.99, 0.01
+    for t in range(n - 1):
+        dS =  - beta * S[t] * I[t]
+        dI = beta * S[t] * I[t] - gamma * I[t]
+
+        # Euler's method: new state = old state + rate * step size
+        S[t + 1] = S[t] + dS * dt
+        I[t + 1] = I[t] + dI * dt
+        
+    return S, I
+\end{lstlisting}
+
+\section{Incidence vs.~prevalence}
+$I_t$ is the per-capita \emph{prevalence}: the proportion infected at
+a time $t$. Surveillance rarely measures prevalence. Instead,
+surveillance efforts reoirt \emph{incidence}: the number of \emph{new}
+infections over a reporting interval, e.g.\ a week:
+
+\begin{definition}
+The \emph{incidence} over an interval $[t-\Delta t,\,t]$ is the number
+of new infections:
+\[
+\text{Incidence}(t) = N \int_{t-\Delta t}^{t} \lambda_s\, S_s \, ds.
+\]
+\end{definition}
+Tyically we normalize to find the \emph{per-capita} incidence
+
+\begin{lstlisting}
+import numpy as np
+
+def incidence_euler(beta, gamma, dt, k, n):
+    S, I = 0.99, 0.01
+    incidence = np.zeros(n)
+ 
+    for t in range(n-1):
+        for s in range(k):
+            new_infections = beta * S * I
+            dS =  - new_infections
+            dI = new_infections - gamma * I
+
+            # Euler's method: new state = old state + rate * step size
+            S += dS * dt
+            I +=  dI * dt
+
+            # Accumulate new infections
+            incidence[t+1] += new_infections * dt 
+        
+    return incidence
+\end{lstlisting}
+
+Note: since the Euler time step (e.g.~day) may differ from the
+sampling rate\footnote{To be precise, the Euler step may differ from
+the \emph{inverse} of the sampling rate.} (e.g.~one week) we had to
+implement another loop that rubs over $0,...,k$.
+
+\section{Log-transformations}
+
+Working with $\log$ variables is more stable numeically. We can easily
+find that
+
+\begin{align*}
+  \dot{\log(S)} &= \frac{1}{S} \dot{S}  \\
+  &=  \frac{-\beta S I}{S} \\
+  %&= -\beta I \\
+  &= -\beta e^{\log(I)}\\ 
+  \dot {\log(I)} &= \frac{\beta SI -\gamma I}{I} \\
+  &= -\beta e^{\log(S)} - \gamma.
+\end{align*}
+
+\begin{lstlisting}
+import numpy as np
+
+def log_euler(beta, gamma, dt, n):
+    logS, logI = np.zeros(n), np.zeros(n)
+    logS[0], logI[0] = np.log(0.99), np.log(0.01) 
+    for t in range(n - 1):
+        dlogS =  - beta * np.exp(logI[t])
+        dlogI = beta * np.exp(logS[t]) - gamma 
+
+        # Euler's method: new state = old state + rate * step size
+        logS[t + 1] = logS[t] + dlogS * dt
+        logI[t + 1] = logI[t] + dlogI * dt
+        
+    return S, I
+\end{lstlisting}
+
+
+
+%% \section{Observation noise and process noise}
+
+%% A simulated (or real) epidemic time series has two distinct sources
+%% of randomness, and it matters which one you mean.
+
+%% \begin{itemize}
+%%   \item \textbf{Process noise}: randomness in the \emph{true}
+%%   dynamics themselves --- e.g.\ random fluctuations in the contact
+%%   rate. This perturbs the actual trajectory $S_t,I_t,R_t$, step by
+%%   step, as it is generated.
+%%   \item \textbf{Observation noise}: randomness in how that true state
+%%   is \emph{measured} --- underreporting, test error, sampling. This
+%%   is added only once, after the true trajectory is simulated, to
+%%   produce the ``data'' we pretend to observe.
+%% \end{itemize}
+%% From data alone, the two are often hard to tell apart --- a central
+%% difficulty in fitting epidemic models, and part of the motivation for
+%% the methods we turn to at the end of this chapter.
+
+\section{A driven epidemic model}
+
+Many infectious diseases are seasonal (e.g.~measles and influenza),
+since transmission varies in time. We let $\beta$ vary
+periodically in time:
+\[
+\beta_t = \beta_0\big(1+\beta_1\cos(2\pi t)\big),
+\]
+This is a \emph{driven}, or \emph{forced} system, with $t$ in years,
+$\beta_0>0$ the baseline transmission rate, and $\beta_1\in[0,1)$ the
+amplitude of seasonal forcing. Substituting into the demographic SIR
+system:
+\begin{align*}
+\dot S &= \mu(1-S) - \beta_t\, S I, \\
+\dot I &= \beta_t\, S I - (\gamma+\mu) I, \\
+\dot R &= \gamma I - \mu R.
+\end{align*}
+%% This is a purely deterministic system, driven by a perfectly periodic
+%% $\beta_t$, with no noise anywhere --- yet, for suitable parameters, it
+%% produces recurring outbreaks that are not all the same size:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{visualizations/driven_sir.pdf}
+\caption{\label{fig:driven_sir}A biennial cycle: one large outbreak (red), one small (blue),
+repeating exactly every two years ($\log$ scale --- the small
+outbreaks are $\sim\!15\times$ smaller). Parameters: $\mu=0.02\,\text{yr}^{-1}$,
+$\gamma=365/13\,\text{yr}^{-1}$ (13-day infectious period), $R_0=17$
+(so $\beta_0=R_0(\gamma+\mu)\approx477.6\,\text{yr}^{-1}$),
+$\beta_1=0.185$.}
+\end{figure}
+
+%% \section{Adding an incubation stage: the SEIR model}
+%% The SIR model above has no incubation period: a susceptible becomes
+%% infectious immediately on contact. For measles this is unrealistic ---
+%% symptoms (and infectiousness) begin only $\sim\!8$--$12$ days after
+%% exposure. We add an \emph{exposed} (infected but not yet infectious)
+%% compartment $E$:
+%% \begin{align*}
+%% \dot S &= \mu(1-S) - \beta_t\, S I, \\
+%% \dot E &= \beta_t\, S I - (\mu+a) E, \\
+%% \dot I &= a E - (\mu+\gamma) I, \\
+%% \dot R &= \gamma I - \mu R,
+%% \end{align*}
+%% where $1/a$ is the mean latent period.
+
+\section{Units}
+Units are crucial in simulations and modeling. We first decide on time
+unit (e.g.~year, month, week) and then derive parameters
+accordingly. See Table~\ref{tab:units} for examples.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{l p{10.5cm}}
+\hline
+description & value \\
+\hline
+recovery rate &
+$\gamma = \frac{1}{13}\,\text{day}^{-1} = \frac{1}{13}\left(\frac{\text{year}}{365}\right)^{-1}= \frac{365}{13}\,\text{year}^{-1}$ \\
+%
+%
+%
+birth rate & 
+$\mu = \frac{1}{50}\,\text{year}^{-1} = \frac{1}{50}\big(365\,\text{day}\big)^{-1} = \frac{1}{18250}\,\text{day}^{-1}$ \\
+%
+%
+%
+contact rate &
+$\kappa = 10\,\text{day}^{-1} =10\left(\frac{\text{year}}{365}\right)^{-1} = 3650\,\text{year}^{-1}$
+\\ \hline
+\end{tabular}
+\caption{Converting parameter values between day and year units, by
+treating day and year as algebraic symbols (day $=$ year$/365$).}
+\label{tab:units}
+\end{table}

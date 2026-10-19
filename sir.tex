@@ -38,20 +38,20 @@ P(T>t) = \int_t^\infty \gamma e^{-\gamma s}\,ds = e^{-\gamma t}.
 \]
 Since each of the $Y_0$ initial infecteds recovers independently with this same law,
 \[
-Y(t) = Y_0\,e^{-\gamma t}.
+Y_t = Y_0\,e^{-\gamma t}.
 \]
 
 Differentiating,
 \[
-\dot Y(t) = \frac{d}{dt}\left(Y_0 e^{-\gamma t}\right) = -\gamma Y_0 e^{-\gamma t} = -\gamma Y(t).
+\dot Y_t = \frac{d}{dt}\left(Y_0 e^{-\gamma t}\right) = -\gamma Y_0 e^{-\gamma t} = -\gamma Y_t.
 \]
 So with recovery alone, $\dot Y = -\gamma Y$.
 
 \paragraph{What does $\gamma$ mean?}
-$\gamma$ is the per-capita recovery rate. By Basic Probability, the infectious
-period is $T\sim\text{Exp}(\gamma)$, so the mean infectious period is
-$1/\gamma$. Example: if infected individuals recover after 5 days on
-average, $\gamma = 1/5\ \text{day}^{-1}$.
+$\gamma$ is the per-capita recovery rate. From probability, the
+infectious period is $T\sim\text{Exp}(\gamma)$, so the mean infectious
+period is $1/\gamma$. Example: if infected individuals recover after 5
+days on average, $\gamma = 1/5\ \text{day}^{-1}$.
 
 \section{Adding new infections}
 
@@ -86,11 +86,11 @@ and so
 \end{align*}
 
 \begin{definition}
-The \emph{force of infection} (FOI) $\lambda(t)$ is the per-capita
+The \emph{force of infection} (FOI) $\lambda_t$ is the per-capita
 rate at which susceptibles become infected.
 \end{definition}
 
-It is clear that $\lambda(t) = \beta \frac{Y}{N}$. This specific form
+It is clear that $\lambda_t = \beta \frac{Y}{N}$. This specific form
 is called a mass-action force of infection. We can see this by
 multiplying by the number of susceptibles $X$:
 \begin{align*}
@@ -110,7 +110,7 @@ so the rate of new infections is
 Contacts do not depend on the infection state of
 individuals; the number of contacts between individuals does not
 depend on population size $N$: doubling both $N$ and $Y$ leaves
-$\lambda(t)$ unchanged.
+$\lambda_t$ unchanged.
 
 
 \section{Putting everything together}
@@ -139,7 +139,7 @@ recover $R=1-S-I$ when needed.
 
 
 \paragraph{What does $\beta$ mean?}
-If $S(0)\approx 1$ and $I(0) > 0$ then in one time unit we will have
+If $S_0\approx 1$ and $I_0 > 0$ then in one time unit we will have
 $\beta SI \approx \beta I$ new infections. So \emph{per individual} we
 will have $\beta$ new infections. Thus, $\beta$ is the number of new
 infections per individual per time unit that an infected individual

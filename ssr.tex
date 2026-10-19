@@ -1,0 +1,141 @@
+\chapter{State-Space Reconstruction}
+
+\section{States and Dynamics}
+
+Define $\phi_t :=2\pi t \bmod 2\pi$. If we know $S, I$ and $\phi$ at
+one time point we fully know the future. The \emph{state-space} of the
+system is
+\[
+\Omega = (S,I,\phi) \in \mathbb{R}^2\times \mathbb{S}^1.
+\]
+To find $\omega_{t+1} = (S_{t+1}, I_{t+1}, \phi_{t+1})$ from $\omega_t =
+(S_t, I_t, \phi_t)$ we integrate the SIR equations. This \emph{law}
+is encapsulated in an operator $T\omega_t = \omega_{t+1}$.
+
+\begin{definition}
+  A \emph{dynamical system} is a pair $(\Omega, T)$ where $\Omega$
+  called the \emph{state-space} and $T:\Omega \to \Omega$ is the
+  \emph{law} of the dynamics.
+\end{definition}
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.48\linewidth}
+\includegraphics[width=\linewidth]{visualizations/driven_sir.pdf}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\linewidth}
+\includegraphics[width=\linewidth]{visualizations/sir_state_space.pdf}
+\end{minipage}
+\caption{The trajectory of the driven SIR model in time (left) and in
+  state-space $(S,I,\phi)$ (right). Same parameters as
+  Figure~\ref{fig:driven_sir}, \textcolor{red}{red} = large outbreak
+  year, \textcolor{blue}{blue} = small).}
+\end{figure}
+
+\subsection{Prediction}\label{subsec:pred}
+Say we know $\omega_t$ and we have many records of $\omega_s,
+s<t$. What we do not have is access to $T$ itself. How would we
+predict $\omega_{t+1}$? Easy: find $t^\star = \arg\min_{s<t}
+\|\omega_s - \omega_t\|$ and predict $\omega_{t+1} \approx
+\omega_{t^\star +1}$.
+
+\section{Takens' theorem}
+\begin{definition}
+  An \emph{observable} is a real-valued function $X:\Omega \to
+  \mathbb{R}$. We usually abuse notation and write $X_t =
+  X(\omega_t)$.
+\end{definition}
+
+In many applications we do not have access to neither $T$ nor to
+$\Omega$. However, we may have records of some observable(s). Let
+$X_t$ be an observed quantity (e.g.\ fraction of infecteds $I_t$), fix
+a lag $L$ and an \emph{embedding dimension} $E$. The \emph{delay
+vector} is
+\[
+x_t = \big(X_t,\,X_{t-L},\,\dots, X_{t-(E-1)L}\big).
+\]
+It is easiest to take $L$ to be the spacing between observations
+(i.e.~inverse of the sampling rate).
+
+\begin{theorem}[Takens, 1981]
+Let $(\Omega, T)$ a dynamical system, $d=\dim \Omega$ and $X:\Omega
+\to \mathbb{R}$ an observable, $L>0$ some lag, and $E>2d$. Then, generically, the
+map $x_t \to \omega_t$ is a diffeomorphism (everywhere differentiable
+with an inverse which is also everywhere differentiable). 
+\end{theorem}
+In lignt of Takens' Theorem, we call $x_t$ \emph{reconstructed
+states}. We denote the set of all reconstruted states $M_X := \{x_s:
+s\leq t\}$.
+
+\subsection{Why $E>2d$? (dimension counting)}
+The map $x_t\to\omega_t$ can fail in two ways, and both are ruled out
+by a dimension count once $E>2d$.
+
+\begin{itemize}
+\item \textbf{Injectivity.} $x_s=x_t$ for $s\ne t$ means $E$ equations
+  $X(\omega_{s-kL})=X(\omega_{t-kL})$, $k=0,\dots,E-1$, hold at once.
+  These are imposed on the $2d$-dimensional space of pairs
+  $(\omega_s,\omega_t)\in\Omega\times\Omega$. With $E>2d$ this is
+  \emph{overdetermined} --- generically, more equations than degrees
+  of freedom means no solutions.
+\item \textbf{Immersion.} The map fails to be locally invertible at
+  $\omega_t$ exactly when some direction $v\in T_{\omega_t}\Omega$ is
+  killed by all $E$ copies of $dX$ pulled back along the orbit. Again,
+  generically, requiring $E$ independent conditions to vanish on a
+  space of dimension $d-1$ forces $v=0$ once $E>2d$.
+\end{itemize}
+
+%% Two honest caveats. First, ``generically'' is doing real work: making
+%% it rigorous needs transversality theory (Sard's theorem), not just
+%% counting --- we do not prove that here. Second, the count assumes
+%% $\omega_{s-kL}$, $k=0,\dots,E-1$, are genuinely $E$ \emph{independent}
+%% pieces of information; this fails exactly on periodic orbits of low
+%% period, which is why Takens' hypotheses also constrain $T$ (finitely
+%% many such orbits, with non-resonant eigenvalues), not just $X$.
+
+\subsection{The Olsen--Schaffer attractor}
+Takens' theorem implies we can \emph{see} the state space of a system
+we are investigating: just plot the reconstructed states / delay
+vectors. For the SEIR model with measles parameters (Aron \& Schwartz),
+Olsen \& Schaffer (1990) reconstruct
+$\big(I_t,I_{t-L},I_{t-2L}\big)$, $L=3$ months:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{visualizations/os_attractor.pdf}
+\caption{\label{fig:os_attractor}Reconstructed attractor of the
+  seasonally forced SEIR model, measles parameters (Aron \& Schwartz,
+  as used by Olsen \& Schaffer 1990): $m=0.02\,\text{yr}^{-1}$
+  (birth/death rate), $a=35.84\,\text{yr}^{-1}$ (latent period),
+  $g=100\,\text{yr}^{-1}$ (infectious period),
+  $\beta_0=1800\,\text{yr}^{-1}$, $\beta_1=0.28$.}
+\end{figure}
+
+\subsection{Prediction, revisited}
+We observe $X_s, 0\leq s\leq t$ and would like to forecast
+$X_{t+1}$. We take an approach analogous to the one we took in
+Section~\ref{subsec:pred}:
+\begin{enumerate}
+  \item Build $x_s = (X_s, X_{s-1},\dots, X_{s-(E-1)})$ for $ E-1 \leq s \leq t$.
+  \item Find $\arg \min_{E-1 \leq s \leq t} \|x_s - x_t\|$.
+  \item Forecast $X_{s+1}$.
+\end{enumerate}
+
+How far ahead can this work? Take two states that start out
+neighbors on the attractor and just let both evolve --- no
+re-forecasting --- and track how far apart they drift as a function
+of lead time:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{visualizations/nn_prediction.pdf}
+\caption{\label{fig:nn_prediction}RMSE (on $\log_{10}I$) between two
+  initially-neighboring trajectories, as a function of forecast
+  horizon. Same reconstructed state space and parameters as
+  Figure~\ref{fig:os_attractor}. Growth is monotonic: nearby states on
+  a chaotic attractor diverge, which is exactly what bounds how far
+  ahead \emph{any} forecaster --- nearest-neighbor or otherwise --- can
+  see.}
+\end{figure}
+

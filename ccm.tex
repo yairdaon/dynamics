@@ -1,0 +1,52 @@
+\chapter{Convergent Cross Mapping}
+
+\section{Skew products}
+
+Suppose $X$ drives $Y$ but not vice versa. We can write this as a set of ODEs:
+\begin{align*}
+\dot X = f(X), & \qquad \dot Y = g(Y,X).
+\end{align*}
+Or, we can write this as abstract dynamical systems:
+\begin{align*}
+  \Omega^{X} = (\omega_1^{X},\dots, \omega_k^{X})& \qquad \Omega^Y = (\omega_1^{X},\dots, \omega_k^{X}, \omega^Y_{k+1}, \dots, \omega^Y_q),
+\end{align*}
+with dynamics operators $T^X$ and $T^Y$.  This is a \emph{skew
+product}: $X$ evolves on its own; $Y$'s history depends on $X$'s. We
+call $X$ the \emph{base} and $Y$ is called the \emph{fibre}. By
+Takens' theorem applied to $Y$, the reconstructed manifold $M_Y \cong
+\Omega^Y$ embeds information about $X$ as well as information about
+$Y$. The converse reconstruction $M_X$ does \emph{not} contain
+information about $Y$, since $X$ never sees $Y$.
+
+\section{Causality}
+
+\begin{definition}
+We say that $X$ \emph{causally forces} $Y$ if $X,Y$ form a skew
+product where $X$ is the base and $Y$ is the fibre.
+\end{definition}
+
+Operationally: can we find $\omega^X$ from $\omega^Y$? Or, can we do
+the same using reconstructed states, i.e.~find $x_t$ from
+$y_t$. Importantly, this does not necessitate knowing the law or
+state-space of the dynamics.
+
+\section{Convergent Cross Mapping}
+
+Fix library length $L\le N$. For each $t$ in $1,\dots,L$:
+\begin{enumerate}[nosep]
+\item Find the $E+1$ nearest neighbors of $M_Y(t)$ among
+  $\{M_Y(1),\dots,M_Y(L)\}\setminus\{M_Y(t)\}$, with time indices
+  $t_1,\dots,t_{E+1}$.
+\item Weight them by distance: $w_i \propto
+  e^{-d(M_Y(t),M_Y(t_i))/d(M_Y(t),M_Y(t_1))}$.
+\item Cross-map: $\hat X_t = \sum_i w_i\, X_{t_i}$.
+\end{enumerate}
+Skill: $\rho_L = \operatorname{corr}\big(\hat X,X\big)$ over $t=1,\dots,L$.
+
+\paragraph{Convergence.} Plot $\rho_L$ vs.\ $L$. If $\rho_L$ increases
+and plateaus as $L$ grows, $X$ causally forces $Y$: more of $Y$'s
+history fills in $M_Y$ more completely, so nearby points on $M_Y$
+genuinely share nearby $X$-states. A flat or non-increasing $\rho_L$
+is evidence against causation, even if $X,Y$ are correlated ---
+convergence, not correlation, is the signature.
+

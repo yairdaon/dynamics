@@ -1,4 +1,4 @@
-\chapter{Basic Probability}
+\chapter{Probability}
 
 \section{Sample spaces and events}
 
@@ -69,12 +69,17 @@ Events $A$ and $B$ are \emph{independent} if
 If moreover $\Pr(B)>0$, this is equivalent (by the definition of
 conditional probability above) to $\Pr(A|B) = \Pr(A)$.
 
-Interpretation: knowing that some of the events occurred gives no information about whether the others occurred.
+Interpretation: knowing that some of the events occurred gives no
+information about whether the others occurred.
 
 \begin{example}
-A susceptible individual has $n$ contacts. Each contact independently transmits infection with probability $c$. Let $A_i=\{\text{contact } i \text{ does not transmit infection}\}$, so $\Pr(A_i)=1-c$. Avoiding infection on all $n$ contacts is the event $A_1\cap\cdots\cap A_n$, so by independence
+A susceptible individual has $n$ contacts. Each contact independently
+transmits infection with probability $c$. Let $A_i=\{\text{contact $i$
+  transmits infection}\}$, so $\Pr(A_i)=q$. Avoiding infection on
+all $n$ contacts is the event $A_1^c\cap\cdots\cap A_n^c$, so by
+independence
 \[
-\Pr(\text{avoid infection}) = \prod_{i=1}^n \Pr(A_i) = (1-c)^n.
+\Pr(\text{avoid infection}) = \prod_{i=1}^n \Pr(A_i^c) = (1-q)^n.
 \]
 \end{example}
 
@@ -116,8 +121,6 @@ Mean: $E[T]=1/\lambda$.
 Interpretation: if $T$ is the infectious period and $T\sim\text{Exp}(\gamma)$, then $\gamma$ is the recovery \emph{rate} and $1/\gamma$ is the mean infectious period.
 
 \section{The memoryless property}
-
-
 \begin{proposition}
   If $T\sim\text{Exp}(\lambda)$, then $T$ is memoryless, i.e.~
   \[
@@ -131,9 +134,13 @@ time remaining --- the recovery rate is constant, with no ``aging'' or
 ``wearing out.''
 
 \begin{proof}
-\[
-\Pr(T> t+s\mid T> t) = \frac{\Pr(T> t+s \cap T > t)}{\Pr(T > t)} = \frac{\Pr(T> t+s)}{\Pr(T> t)} = \frac{e^{-\lambda(t+s)}}{e^{-\lambda t}} = e^{-\lambda s} = \Pr(T> s).
-\]
+\begin{align*}
+  \Pr(T> t+s\mid T> t) &= \frac{\Pr(T> t+s \cap T > t)}{\Pr(T > t)}\\
+  &= \frac{\Pr(T> t+s)}{\Pr(T> t)}\\
+  &= \frac{e^{-\lambda(t+s)}}{e^{-\lambda t}}\\
+  &= e^{-\lambda s} \\
+  &= \Pr(T> s).
+\end{align*}
 \end{proof}
 
 \section{Minimum of independent exponentials}
@@ -146,16 +153,18 @@ Z\sim\text{Exp}(\lambda+\eta).
 \]
 \end{proposition}
 
-\begin{proof}
-By independence
-\[
-\Pr(Z>t) = \Pr(X>t)\,\Pr(Y>t) = e^{-\lambda t}e^{-\eta t} = e^{-(\lambda+\eta)t},
-\]
-which is the survival function of $\text{Exp}(\lambda+\eta)$.
-\end{proof}
-
 Interpretation: if an infected individual leaves the infected class
 either by recovering (rate $\gamma$) or by dying of unrelated causes
 (rate $\mu$), independently, then the time spent in the infected class
 is $\min(T_{\text{recovery}}, T_{\text{death}})\sim\text{Exp}(\gamma+\mu)$
 --- whichever happens first --- with mean $1/(\gamma+\mu)$.
+
+\begin{proof}
+By independence
+\begin{align*}
+  \Pr(Z>t) &= \Pr(X>t)\,\Pr(Y>t) \\
+  &= e^{-\lambda t}e^{-\eta t}\\
+  &= e^{-(\lambda+\eta)t} \\
+\end{align*}
+which is indeed the survival function of $\text{Exp}(\lambda+\eta)$.
+\end{proof}

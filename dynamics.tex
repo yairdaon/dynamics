@@ -1,20 +1,33 @@
-\documentclass[11pt]{book}
+\documentclass[11pt,oneside]{book}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
+\usepackage{listings}
 
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
 \newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
 
 \tikzset{compartment/.style={draw, minimum width=1cm, minimum height=1cm}}
 
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  breaklines=true,
+  showstringspaces=false,
+  commentstyle=\itshape,
+}
+
 \title{Mathematical Models of Infectious Diseases}
-\author{}
-\date{}
+\author{Yair Daon}
+\date{\today}
 
 \begin{document}
 \maketitle
@@ -22,9 +35,14 @@
 
 \input{intro}
 \input{calculus}
-\input{basic_probability}
-\input{linear_algebra}
+\input{probability}
 \input{sir}
+\input{linear_algebra}
+\input{odes}
 \input{sir_ctd}
+\input{simulation}
+\input{ssr}
+\input{ccm}
+\input{dim}
 
 \end{document}

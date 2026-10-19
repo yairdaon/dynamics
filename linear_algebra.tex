@@ -71,6 +71,24 @@ columns are parallel, i.e.
 The determinant is the product of eigenvalues, whereas the trace is
 their sum.
 
+\section{Eigendecomposition}
+Suppose $A$ has eigenvectors $v_1,v_2$ with eigenvalues
+$\lambda_1,\lambda_2$, and let $P=\begin{pmatrix}v_1 & v_2\end{pmatrix}$
+(eigenvectors as columns). Then
+\[
+AP = \begin{pmatrix}Av_1 & Av_2\end{pmatrix}
+   = \begin{pmatrix}\lambda_1 v_1 & \lambda_2 v_2\end{pmatrix}
+   = PD, \qquad D=\begin{pmatrix}\lambda_1&0\\0&\lambda_2\end{pmatrix},
+\]
+so, if $v_1,v_2$ are independent ($P$ invertible),
+\[
+A = PDP^{-1}.
+\]
+$P$ is a \emph{change of basis}: $P^{-1}$ converts a vector from the
+standard basis to \emph{eigenbasis} coordinates (coefficients along
+$v_1,v_2$), and $P$ converts back. In eigenbasis coordinates $A$ acts
+as the diagonal $D$.
+
 \section{The determinant for a $3\times 3$ matrix}
 \[
 \det\begin{pmatrix}a_1&b_1&c_1\\a_2&b_2&c_2\\a_3&b_3&c_3\end{pmatrix}
