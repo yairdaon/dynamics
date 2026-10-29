@@ -1,20 +1,17 @@
 # Course TODO
 
-## Module: Linear algebra primer
-- Start with two vectors in the plane, $(a,b)$ and $(c,d)$.
-- Ask: what is the area of the parallelogram they span?
-- Show it equals $ad-bc$ (signed area).
-- Use this to define the determinant as a volume/area function.
-- Write the same thing in matrix form: $\det\begin{pmatrix}a&c\\b&d\end{pmatrix} = ad-bc$.
-- More topics (eigenvalues, eigenvectors, etc.) to be added as needed.
-
-## Module: SIR with demography
-- Add births and deaths to the basic SIR model.
-
-## Module: Equilibrium analysis
-- Find all equilibria of the SIR-with-demography model.
-- Then linearization:
-  - Write the linearized equations out in full (component-wise).
-  - Then present the same system in matrix form, as a compact notation
-    for what's already been derived.
-  - (Yair: needs more thought on how to sequence/motivate this.)
+## Module: State-space reconstruction (EDM)
+- Native-coordinate attractor: simulate the SEIR model with the measles
+  parameters Aron & Schwartz used (as reported in Olsen & Schaffer 1990):
+  $m=0.02\,\text{yr}^{-1}$, $a=35.84\,\text{yr}^{-1}$, $g=100\,\text{yr}^{-1}$,
+  $\beta_0=1800\,\text{yr}^{-1}$, $\beta_1=0.28$. Plot the attractor in
+  native coordinates $S(t), I(t), \beta(t)$ and note it is diffeomorphic to
+  Olsen & Schaffer's lagged-coordinate reconstruction
+  $I(t), I(t+T), I(t+2T)$ (their Fig. 2A, $T=3$ months).
+- Introduce S-maps on the non-reconstructed (native) state space
+  ($S,I,\beta$, or any other reasonable native coordinates) as a first
+  look at local/nonlinear structure before reconstruction is introduced.
+- (Later lecture) Present S-maps as a state-space reconstruction
+  technique proper (lagged coordinates) and recover the Jacobian of the
+  system from data.
+- (Later lecture) Convergent cross mapping (CCM).
