@@ -5,9 +5,9 @@
 We assume infection is \emph{acute}: an individual is infected, then
 is removed (recovers or dies) and stays removed. Three compartments:
 \begin{itemize}[nosep]
-  \item $S$ --- Susceptible: can become infected.
-  \item $I$ --- Infected: currently infectious.
-  \item $R$ --- Removed: no longer infectious, not reinfected.
+  \item Susceptible: can become infected.
+  \item Infected: currently infectious.
+  \item Removed: no longer infectious, not reinfected.
 \end{itemize}
 
 %% \begin{center}
@@ -27,31 +27,32 @@ population size $N$ is assumed constant.
 \section{Recovery: an exponential process}
 
 Assume individual recovery happens at a constant rate $\gamma$, and
-for now ignore new infections. By Basic Probability, a constant recovery rate
-means each individual's remaining infectious time $T$ is exponential:
+for now ignore new infections. A constant recovery rate means each
+individual's remaining infectious time $T$ is exponential:
 $T\sim\text{Exp}(\gamma)$.
 
-Let $Y_0:=Y(0)$. The probability that an individual is still infected
-(not yet recovered) at time $t$ is
+The probability that an individual is still infected (not yet
+recovered) at time $t$ is
 \[
 P(T>t) = \int_t^\infty \gamma e^{-\gamma s}\,ds = e^{-\gamma t}.
 \]
-Since each of the $Y_0$ initial infecteds recovers independently with this same law,
+Let $Y_0:=Y(0)$. Since each of the $Y_0$ initial infecteds recovers
+independently with this same law,
 \[
-Y_t = Y_0\,e^{-\gamma t}.
+Y_t = Y_0\,e^{-\gamma t},
 \]
-
-Differentiating,
+at least on average. Differentiating,
 \[
 \dot Y_t = \frac{d}{dt}\left(Y_0 e^{-\gamma t}\right) = -\gamma Y_0 e^{-\gamma t} = -\gamma Y_t.
 \]
 So with recovery alone, $\dot Y = -\gamma Y$.
 
 \paragraph{What does $\gamma$ mean?}
-$\gamma$ is the per-capita recovery rate. From probability, the
-infectious period is $T\sim\text{Exp}(\gamma)$, so the mean infectious
-period is $1/\gamma$. Example: if infected individuals recover after 5
-days on average, $\gamma = 1/5\ \text{day}^{-1}$.
+$\gamma$ is the per-capita recovery rate (this is just a fancy way of
+saying ``individual recovery rate''). Since the infectious period is
+$T\sim\text{Exp}(\gamma)$, the mean infectious period is
+$1/\gamma$. Example: if infected individuals recover after 5 days on
+average, $\gamma = 1/5\ \text{day}^{-1}$.
 
 \section{Adding new infections}
 
@@ -59,30 +60,27 @@ New infections add to $Y$; recoveries remove from $Y$:
 \[
 \dot Y = (\text{rate of new infections}) - \underbrace{\gamma Y}_{\text{recovery rate}}.
 \]
-
-Let us assume for now that there are no recoveries. We derive the rate of new
-infections from first principles. Let $\kappa$ denote the number of
-contacts per time unit for a susceptible individual. So during a short
-time interval this individual has $\kappa \frac{Y}{N} \times \delta t$
-contacts with infecteds. We let
+Let us assume for now that there are no recoveries. We derive the rate
+of new infections from first principles. Let $\kappa$ denote the
+number of contacts per time unit for a susceptible individual. So
+during a short time interval this individual has $\kappa \frac{Y}{N}
+\times \delta t$ contacts with infecteds. We let
 \[
-c = \Pr(\text{transmission}|\text{contact with infected}).
+c = \Pr(\text{infection}|\text{contact with infected}).
 \]
 
-Hence $1-c$ is the complement (no transmission given a contact) and
-
+Hence $1-c$ is the probability of the complement (no infection given a
+contact) and by example \ref{example:no infection}:
 \[
 \Pr(\text{no infection during time $\delta t$}) = (1-c)^{\kappa \frac{Y}{N} \delta t}
 \]
-
 and so
-
 \begin{align*}
   \Pr(\text{infection during time $\delta t$})
   &= 1 - (1-c)^{\kappa \frac{Y}{N} \delta t} \\
   &= 1 - e^{-\beta \frac{Y}{N} \delta t} \quad  (\text{let $\beta:= -\kappa \log(1-c)$})\\
-  &= 1 - (1-\beta \frac{Y}{N} \delta t) \quad  (\text{since $e^x \approx 1+x$ for small x})\\
-  &= \beta \frac{Y}{N} \delta t  \\
+  &\approx 1 - (1-\beta \frac{Y}{N} \delta t) \quad  (\text{since $e^x \approx 1+x$ for small x})\\
+  &= \beta \frac{Y}{N} \delta t.  \\
 \end{align*}
 
 \begin{definition}
@@ -90,19 +88,19 @@ The \emph{force of infection} (FOI) $\lambda_t$ is the per-capita
 rate at which susceptibles become infected.
 \end{definition}
 
-It is clear that $\lambda_t = \beta \frac{Y}{N}$. This specific form
-is called a mass-action force of infection. We can see this by
-multiplying by the number of susceptibles $X$:
+We now find the force of infection. First note that
 \begin{align*}
-  \text{number of new infections during $\delta t$} &= X \Pr(\text{infection during time $\delta t$}) \\
-  &= \beta \frac{Y}{N} \delta t \cdot X
+  \text{number of new infections during $\delta t$} &= X
+  \Pr(\text{infection during time $\delta t$}) \\ &= \beta \frac{Y}{N}
+  \delta t \cdot X,
 \end{align*}
 so the rate of new infections is
 \[
 \text{rate of new infections} = \frac{\beta \frac{Y}{N} \delta
   t}{\delta t} X = \beta \frac{Y}{N} X.
 \]
-
+Therefore, in our case $\lambda_t = \beta \frac{Y}{N}$\footnote{This
+specific form is called a mass-action force of infection.}.
 
 \paragraph{What does $\beta$ mean?} See below.
 
@@ -115,17 +113,16 @@ $\lambda_t$ unchanged.
 
 \section{Putting everything together}
 We dropped recoveries above only to isolate the derivation of the
-infection rate; reinstating the recovery term $\gamma Y$ from
-Section~2, we have
+infection rate; reinstating the recovery term $\gamma Y$ we have
 \begin{align*}
 \dot{X} &= -\text{rate of new infections} = -\beta \frac{Y}{N} X, \\
 \dot{Y} &= \text{rate of new infections} - \text{rate of recovery} = \beta\frac{Y}{N}X - \gamma Y, \\
 \dot{Z} &= \text{rate of recovery} = \gamma Y.
 \end{align*}
 
-Dividing each equation by $N$ (constant), and writing $S=X/N$,
-$I=Y/N$, $R=Z/N$ for the population proportions gives the standard
-formulation of the SIR model:
+Dividing each equation by the population size $N$ (a constant), and
+writing $S=X/N$, $I=Y/N$, $R=Z/N$ for the population proportions gives
+the standard formulation of the SIR model:
 \begin{align*}
 \dot S &= -\beta S I, \\
 \dot I &= \beta S I - \gamma I, \\

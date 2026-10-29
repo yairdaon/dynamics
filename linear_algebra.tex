@@ -8,12 +8,14 @@ a vector $v=\begin{pmatrix}x\\y\end{pmatrix}$ by
 Av = x\begin{pmatrix}a\\c\end{pmatrix} + y\begin{pmatrix}b\\d\end{pmatrix}
 = \begin{pmatrix}ax+by\\cx+dy\end{pmatrix}.
 \]
-That is, $Av$ is the combination of $A$'s two columns, $\begin{pmatrix}a\\c\end{pmatrix}$ and $\begin{pmatrix}b\\d\end{pmatrix}$, weighted by $v$'s entries $x,y$.
-
+That is, $Av$ is the combination of $A$'s two columns,
+$\begin{pmatrix}a\\c\end{pmatrix}$ and
+  $\begin{pmatrix}b\\d\end{pmatrix}$, weighted by $v$'s entries $x,y$.
+   
 \section{The determinant as an area}
 
-Take two vectors in the plane, $u=(a,c)$ and $v=(b,d)$ --- the columns
-of $A$ from Section 1. They span a parallelogram.
+Take two vectors in the plane, $u=(a,c)$ and $v=(b,d)$. They span a
+parallelogram, see figure below.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -21,13 +23,13 @@ of $A$ from Section 1. They span a parallelogram.
   \draw[->] (0,0) -- (0,3.5);
   \coordinate (O) at (0,0);
   \coordinate (U) at (3,1);
-  \coordinate (V) at (1,2.5);
+  \coordinate (V) at (1,1.8);
   \coordinate (W) at ($(U)+(V)$);
   \draw[thick,-{Stealth[]}] (O) -- (U) node[below right] {$u=(a,c)$};
   \draw[thick,-{Stealth[]}] (O) -- (V) node[above left] {$v=(b,d)$};
   \draw[dashed] (U) -- (W) -- (V);
   \draw[fill=gray!20,opacity=0.5] (O)--(U)--(W)--(V)--cycle;
-  \draw[dotted] (0,0) rectangle (4,3.5);
+  \draw[dotted] (0,0) rectangle (4,2.8);
 \end{tikzpicture}
 \end{center}
 
@@ -47,9 +49,22 @@ The \emph{determinant} of a matrix
 $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$ is the \emph{signed} area
 spanned by $u=(a,c)$, $v=(b,d)$. 
 \end{definition}
-We had just saw that $\det A = ad-bc$.
-Geometrically: $\det A = 0$ exactly when the columns of $A$ are
-parallel --- the parallelogram they span is flat, with zero area. 
+When $0 = \det A = ad-bc$ we define the ratio $\alpha = \frac{a}{b} =
+\frac{b}{d}$, so that
+\[
+\begin{pmatrix}a\\c\end{pmatrix} = \alpha \begin{pmatrix}b\\d\end{pmatrix}.
+\]
+I.e. when $\det A = 0$ the columns of $A$ are parallel and the
+parallelogram they span is flat, with zero area.
+
+\section{Matrix inverse}
+The inverse of $A$ is $A^{-1}$ and has the properties:
+\begin{itemize}
+\item $AA^{-1} = I$.
+\item $A^{-1} A = I$.
+\item $Ax = b \Rightarrow x = A^{-1}b$.
+\end{itemize}
+Only matrices with $\det A \neq 0$ have an inverse.
 
 \section{Eigenvalues of a $2\times 2$ matrix}
 
@@ -60,16 +75,15 @@ A nonzero vector $v$ is an \emph{eigenvector} of $A$ with
 
 Rearranging, $(A-\lambda I)v = 0$ for some $v\ne 0$. We saw that
 $(A-\lambda I)v$ is the combination of $(A-\lambda I)$'s two columns
-weighted by $v$'s entries; for a \emph{nonzero} $v$ to give $0$, that
-combination must be nontrivial, which is only possible if the two
-columns are parallel, i.e.
+weighted by $v$'s entries. This is only possible $A$'s columns are
+parallel, i.e.
 \[
 \det(A-\lambda I) = 0.
 \]
 
 \paragraph{Useful fact.}
-The determinant is the product of eigenvalues, whereas the trace is
-their sum.
+If $\lambda_1, \lambda_2$ are $A$'s eigenvalues, then $\det A=
+\lambda_1 \lambda_2$ and $\text{tr} A = a+d = \lambda_1 + \lambda_2$.
 
 \section{Eigendecomposition}
 Suppose $A$ has eigenvectors $v_1,v_2$ with eigenvalues

@@ -72,7 +72,7 @@ conditional probability above) to $\Pr(A|B) = \Pr(A)$.
 Interpretation: knowing that some of the events occurred gives no
 information about whether the others occurred.
 
-\begin{example}
+\begin{example}\label{example:no infection}
 A susceptible individual has $n$ contacts. Each contact independently
 transmits infection with probability $c$. Let $A_i=\{\text{contact $i$
   transmits infection}\}$, so $\Pr(A_i)=q$. Avoiding infection on
@@ -156,8 +156,10 @@ Z\sim\text{Exp}(\lambda+\eta).
 Interpretation: if an infected individual leaves the infected class
 either by recovering (rate $\gamma$) or by dying of unrelated causes
 (rate $\mu$), independently, then the time spent in the infected class
-is $\min(T_{\text{recovery}}, T_{\text{death}})\sim\text{Exp}(\gamma+\mu)$
---- whichever happens first --- with mean $1/(\gamma+\mu)$.
+is the minimum of recovery and death times--- whichever happens
+first. We can write this as $\min(T_{\text{recovery}},
+T_{\text{death}})\sim\text{Exp}(\gamma+\mu)$ with mean
+$1/(\gamma+\mu)$.
 
 \begin{proof}
 By independence
