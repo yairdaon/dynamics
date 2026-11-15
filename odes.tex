@@ -5,12 +5,12 @@
 \dot x = \lambda x.
 \]
 We had already seen such equation. It was the equation for $Y(t)$
-without infections. The solution is identical.
+without infections. The solution is identical to what we had.
 \[
 x(t) = x(0) e^{\lambda t}.
 \]
-If $\lambda>0$ we have exponential growth; if $\lambda<0$ we have
-exponential decay.
+If $\lambda>0$ then $x(t)$ grows exponentialy; if $\lambda<0$ then
+$x(t)$ decays exponentialy.
 
 \section{Uncoupled linear equations}
 Now, consider two equations:
@@ -42,8 +42,11 @@ Figure~\ref{fig:odes}.
   from it (\emph{unstable node}). Opposite signs: the origin attracts
   along one axis and repels along the other (\emph{saddle}).}\label{fig:odes}
 \end{figure}
+
+
 \subsection{Matrix form}
-We can write this set of equations using a diagonal matrix:
+We can write the uncoupled set of equations using in matrix form via a
+diagonal matrix:
 \[
 \begin{pmatrix}
   \dot x_1 \\
@@ -59,12 +62,26 @@ We can write this set of equations using a diagonal matrix:
 \end{pmatrix}.
 \]
 
+
+
 \section{Cycles}
 Consider a simple coupled system
 \begin{align}
   \dot x_1 &= x_2 \\
   \dot x_2 &= -x_1.
 \end{align}
+Recal the derivatives of sine and cosine, see
+Figure~\ref{fig:sin-cos-derivatives} for an illustratio:
+\[
+\frac{d}{dx}\sin x = \cos x, \qquad \frac{d}{dx}\cos x = -\sin x.
+\]
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{visualizations/sin_cos_derivatives.pdf}
+\caption{$\sin x$ and $\cos x$ at $x=0,\pi/2,\pi,3\pi/2,2\pi$ (blue
+  values), with the tangent line and its slope (red) at each
+  point.}\label{fig:sin-cos-derivatives}
+\end{figure}
 Differentiating once more,
 \begin{align}
   \ddot x_1 &= -x_1 \\
@@ -122,15 +139,16 @@ behavior whereas the \emph{real} part governs growth and decay.
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{visualizations/phase_portraits_complex.pdf}
-\caption{$a<0$: spiral sink. $a=0$: pure rotation, a \emph{center}.
-  $a>0$: spiral source.}\label{fig:cycles}
+\caption{Left to right: spiral sink, center (pure rotation), spiral
+  source. Bottom row: $x(t)$ for the trajectory starting
+  at $(x_0,y_0)=(1.5,0)$.}\label{fig:cycles}
 \end{figure}
 
 \section{(Almost) every linear system is diagonal, in the right coordinates}
 Let $A$ have eigenvectors $v_1,v_2$ with corresponding eigenvalues
-$\lambda_1,\lambda_2$ (possibly complex). Then $AP = PD$ with
+$\lambda_1,\lambda_2$. Then $AP = PD$ with
 $P=\begin{pmatrix}v_1&v_2\end{pmatrix}$ and consequently
-$A=PDP^{-1}$. Write $x = Pu$, i.e.\ $u = P^{-1}x$. Then
+$D = P^{-1}AP$. Write $x = Pu$, i.e.\ $u = P^{-1}x$. Then
 \begin{align*}
   \dot u &= P^{-1}\dot x\\
   &= P^{-1}Ax \\
@@ -140,12 +158,81 @@ $A=PDP^{-1}$. Write $x = Pu$, i.e.\ $u = P^{-1}x$. Then
 So $u$ solves a \emph{diagonal} system. Its behavior depends on the
 real and complex parts of the eigenvalues.
 \begin{enumerate}
-\item Positive real $\Rightarrow$ exponential growth.
-\item Negative real $\Rightarrow$ exponential decay.
-\item Positive imaginary$\Rightarrow$ counter-clockwise rotation.
-\item Negative imaginary$\Rightarrow$ clockwise rotation.
+\item Positive real part $\Rightarrow$ exponential growth.
+\item Negative real part $\Rightarrow$ exponential decay.
+\item Nonzero imaginary part $\Rightarrow$ rotation.
 \end{enumerate}
 
 \section{Exercises}
-We omitted the cases of real and /or imaginary parts of eigenvalues
-equal zero. Draw their corresponding diagrams similar to Figure ... 
+\subsection{Exercise 1}
+We omitted the cases of real and / or imaginary parts of eigenvalues
+equal zero. Draw their corresponding diagrams similar to previous
+figures.
+
+\subsection{Exercise 2}
+Let
+\[
+A = \begin{pmatrix}0&1\\1&0\end{pmatrix}.
+\]
+Consider $\dot x = Ax$. Which of the three panels in
+Figure~\ref{fig:odes} does this system belong to?
+
+
+\paragraph{Solution.}
+First, we find $A$'s eigenvalues and eigenvectors.  $\det A = 0\cdot 0
+- 1\cdot 1 = -1$ and $\operatorname{tr}A = 0+0=0$, so
+\[
+\lambda_1\lambda_2 = -1, \qquad \lambda_1+\lambda_2 = 0.
+\]
+We can easily guess $\lambda_1=1,\ \lambda_2=-1$.
+
+For $\lambda_1=1$: $(A-I)v=0$ with $v=(x,y)$ is
+\begin{align*}
+  -x+y&=0 \\
+  x-y&=0.
+\end{align*}
+so $v_1=(1,1)$.
+For $\lambda_2=-1$: $(A+I)v=0$ implies
+\begin{align*}
+  x+y&=0 \\
+  x+y&=0
+\end{align*}
+so $v_2=(1,-1)$.
+
+The eigenvalues $1,-1$ have opposite signs, so this system is a
+\emph{saddle}. Trajectories on $v_1=(1,1)$ move away from the origin
+while trajectories on $v_2=(1,-1)$ approach it. See
+Figure~\ref{fig:exercise2} for a full phase portrait.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\linewidth]{visualizations/phase_portrait_exercise2.pdf}
+\caption{Phase portrait of $\dot x = Ax$ for $A=\begin{pmatrix}0&1\\1&0\end{pmatrix}$.}\label{fig:exercise2}
+\end{figure}
+
+
+\subsection{Exercise 3}
+Let
+\[
+B = \begin{pmatrix}1&-2\\2&1\end{pmatrix}.
+\]
+Consider $\dot x = Bx$. Which of the three types in
+Figure~\ref{fig:cycles} does this system belong to?
+
+\paragraph{Solution.}
+$\det B = 1\cdot 1 - (-2)\cdot 2 = 5$ and $\operatorname{tr}B = 1+1=2$,
+so $B$'s eigenvalues satisfy
+\[
+\lambda_1\lambda_2 = 5, \qquad \lambda_1+\lambda_2 = 2.
+\]
+From the second equation $\lambda_2=2-\lambda_1$; substituting into
+the first and dropping subscripts, $\lambda(2-\lambda)=5$, i.e.\
+$\lambda^2-2\lambda+5=0$. The quadratic formula gives
+\[
+\lambda = \frac{2\pm\sqrt{4-20}}{2} = 1\pm 2i.
+\]
+The eigenvalues are complex, with positive real part $1$ and imaginary
+part $\pm 2$. By the real part, trajectories grow away from the
+origin. The imaginary part implies trajectories circle the
+origin. This system is a \emph{spiral source}.
+
