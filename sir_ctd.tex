@@ -4,7 +4,7 @@
 
 Say the initial proportion of infecteds is $I_0 \ne 0$. Will the
 infection \emph{invade}? I.e.~will $I$ increase? Equivalently, does
-$\dot I>0$ hold?
+$\dot I>0$? Recall that
 
 \[
 \dot I = \beta S I - \gamma I = I(\beta S - \gamma).
@@ -13,7 +13,8 @@ So  $\dot{I} > 0$ if
 \[
 \beta S - \gamma  > 0.
 \]
-We must have $\beta S - \gamma > 0$, or equivalently
+Thus, for invasion we must have $\beta S - \gamma > 0$, or
+equivalently
 \[
 S > \frac{\gamma}{\beta}.
 \]
@@ -33,10 +34,10 @@ R_0 = \frac{\beta}{\gamma}
 
 
 \section{Demographics}
-We want to include births and deaths. Individuals are born into the
-susceptible class $S$ at rate $\mu$ (per unit of the whole population)
-and die at the same per-capita rate $\mu$ from every class, so
-population size is still fixed. The new equations are
+We want to include births and deaths in our model. Individuals are
+born into the susceptible class $S$ at rate $\mu$ and die at the same
+per-capita rate $\mu$ from every class, so population size is still
+fixed. The new equations are
 \begin{align*}
 \dot S &= \mu - \beta S I - \mu S, \\
 \dot I &= \beta S I - \gamma I -\mu I, \\
@@ -53,8 +54,8 @@ exponentials is exponential with the sum of rates, so the time spent
 infected is $\text{Exp}(\gamma+\mu)$.
 
 Using the same interpretation as before, $R_0$ is (contacts during
-infection) $\times$ (transmission probability per contact) with the
-mean infectious period $1/(\gamma+\mu)$:
+infection) $\times$ (transmission probability per contact). The mean
+infectious period $1/(\gamma+\mu)$ so:
 \[
 R_0 = \frac{\beta}{\gamma + \mu}.
 \]
@@ -74,7 +75,8 @@ Set all three derivatives to zero. $\dot R = \gamma I = 0$ forces
 $I=0$ (since $\gamma>0$). Then  $\dot S = \dot{I} = 0$.
 
 So the equilibria are $(S,0,R)$ for $S+R=1$ (and, of course, $0\le
-S\le 1$). This is a \emph{disease-free equilibrium} (DFE).
+S\le 1$). This is a \emph{disease-free equilibrium} (DFE). It is the
+\emph{only} one available for the basic SIR model.
 
 \subsection{Equilibrium analysis for SIR model with demographics}
 
@@ -85,15 +87,15 @@ Recall the model with demography:
 \dot R &= \gamma I - \mu R.
 \end{align*}
 Set all three derivatives to zero. From $\dot I=0$:
-$I[\beta S-(\gamma+\mu)]=0$, so either $I=0$ or
-$S=\dfrac{\gamma+\mu}{\beta}=\dfrac{1}{R_0}$.
+$I[\beta S-(\gamma+\mu)]=0$, so either $I=0$ $I>0$.
 
-\paragraph{Disease-free equilibrium (DFE).} Then $\dot S=\mu(1-S)=0$
+\paragraph{Disease-free equilibrium (DFE).} In this case $I=0$, and then $\dot S=\mu(1-S)=0$
 forces $S=1$. Other compartments are empty.
 
-\paragraph{Endemic equilibrium (EE).} Take $\dot I=0$. If $I = 0$ we are at DFE. So assume $I > 0$. Then
+\paragraph{Endemic equilibrium (EE).} Take $\dot I=0$ and $I > 0$. Then
 \[
-\dot{I} = 0 \Rightarrow \beta S^* = \gamma + \mu \Rightarrow S^* = \frac{\gamma +\mu}{\beta} = \frac{1}{R_0}.  
+\dot{I} = 0 \Rightarrow \beta S^* = \gamma + \mu \Rightarrow S^* =
+\frac{\gamma +\mu}{\beta} = \frac{1}{R_0}.
 \]
 Then
 \[
@@ -142,44 +144,50 @@ J(x^*,y^*) = \begin{pmatrix} \partial f/\partial x & \partial f/\partial y \\ \p
 \]
 \end{definition}
 So:
-\[
+\begin{align}\label{eq:linear approximation}
 \begin{pmatrix} f(x^*+\delta x,y^*+\delta y) \\ g(x^*+\delta x,y^*+\delta y) \end{pmatrix}
 \approx
 \begin{pmatrix} f(x^*,y^*) \\ g(x^*,y^*) \end{pmatrix}
 +
 J(x^*, y^*) \begin{pmatrix} \delta x \\ \delta y \end{pmatrix}.
-\]
-
+\end{align}
 Now, our goal is to linearize a dynamical system 
 \[
 \begin{pmatrix} \dot x \\ \dot y \end{pmatrix} = \begin{pmatrix} f(x,y) \\ g(x,y) \end{pmatrix}
 \]
-using the Jacobian. We linearize at an equilibrium point, $f(x^*,y^*)
-= g(x^*,y^*) = 0$ and let $x=x^*+\delta x$, $y=y^*+\delta y$. Then
+using the Jacobian. We write $x = x^* + \delta x$ and $y^* = y +
+\delta y$ for an equilibrium point $(x^*,y^*)$ that satistifes
+$f(x^*,y^*=g(x^*,y^*)=0$.  Then
+
 \begin{align*}
-  \begin{pmatrix}
-    \dot x \\ \dot y
-  \end{pmatrix} &= \begin{pmatrix} f(x^*,y^*) \\ g(x^*,y^*) \end{pmatrix} \\
+  \begin{pmatrix}\dot{\delta x}\\ \dot{\delta y}\end{pmatrix}
+  %
+  %
+  &= \begin{pmatrix}\dot{x^*} + \dot{\delta x}\\ \dot{y^*} + \dot{\delta y}\end{pmatrix} \\
+  %
+  %
+  &= \begin{pmatrix}\dot x\\ \dot y\end{pmatrix} \\
+  &= \begin{pmatrix}f(x,y)\\ g(x,y)\end{pmatrix} \\
+  &= \begin{pmatrix}f(x^*+\delta x,\,y^*+\delta y)\\ g(x^*+\delta x,\,y^*+\delta y)\end{pmatrix} \\
+  &\approx \begin{pmatrix}f(x^*,y^*)\\ g(x^*,y^*)\end{pmatrix}
+    + J(x^*,y^*)\begin{pmatrix}\delta x\\ \delta y\end{pmatrix} \\
+  &= J(x^*,y^*)\begin{pmatrix}\delta x\\ \delta y\end{pmatrix}.
 \end{align*}
 
-Since $x^*,y^*$ are constant, $\dot x=\dot{\delta x}$ and $\dot
-y=\dot{\delta y}$, so by the approximation above and using $f(x^*,y^*)
-= g(x^*,y^*) = 0$:
+So to summarize:
 \[
 \begin{pmatrix} \dot{\delta x} \\ \dot{\delta y} \end{pmatrix}
-\approx
-J(x^*,y^*)
+\approx J(x^*,y^*)
 \begin{pmatrix} \delta x \\ \delta y \end{pmatrix}.
 \]
 Near an equilibrium, the dynamics of a small perturbation are
-therefore approximately \emph{linear}, governed entirely by the
-Jacobian.
+approximately \emph{linear}. The \emph{qualitative} behavior around an
+equilibrium is detrmined by the Jacobian.
 
 \paragraph{Why is this useful?}
-Stability of an equilibrium is ``stable'' determined by its
-eigenvalues. Roughly, all eigenvalues have to be
-negative\footnote{have negative real part.} for an equilibrium to be
-stable.
+Stability of an equilibrium is determined by its eigenvalues. From the
+classification of linear systems, all eigenvalues have to have negative
+real part for an equilibrium to be stable.
 
 \subsection{Linearization of SIR model}
 Here the variables are $S$ and $I$:

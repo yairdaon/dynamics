@@ -63,22 +63,24 @@ New infections add to $Y$; recoveries remove from $Y$:
 Let us assume for now that there are no recoveries. We derive the rate
 of new infections from first principles. Let $\kappa$ denote the
 number of contacts per time unit for a susceptible individual. So
-during a short time interval this individual has $\kappa \frac{Y}{N}
-\times \delta t$ contacts with infecteds. We let
+during a short time interval $\delta t$ this individual has $\kappa
+\frac{Y}{N} \times \delta t$ contacts with infecteds. We let
 \[
 c = \Pr(\text{infection}|\text{contact with infected}).
 \]
 
 Hence $1-c$ is the probability of the complement (no infection given a
 contact) and by example \ref{example:no infection}:
-\[
-\Pr(\text{no infection during time $\delta t$}) = (1-c)^{\kappa \frac{Y}{N} \delta t}
-\]
+\begin{align*}
+  \Pr(\text{no infection during time $\delta t$}) &= (1-c)^{\kappa \frac{Y}{N} \delta t} \\
+  &= e^{-\beta \frac{Y}{N} \delta t} \text{ (we let $\beta:= -\kappa \log(1-c)$)} 
+\end{align*}
 and so
 \begin{align*}
   \Pr(\text{infection during time $\delta t$})
-  &= 1 - (1-c)^{\kappa \frac{Y}{N} \delta t} \\
-  &= 1 - e^{-\beta \frac{Y}{N} \delta t} \quad  (\text{let $\beta:= -\kappa \log(1-c)$})\\
+  %&= 1 - (1-c)^{\kappa \frac{Y}{N} \delta t} \\
+  &= 1 - e^{-\beta \frac{Y}{N} \delta t}\\
+  %%\quad  (\text{let $\beta:= -\kappa \log(1-c)$})\\
   &\approx 1 - (1-\beta \frac{Y}{N} \delta t) \quad  (\text{since $e^x \approx 1+x$ for small x})\\
   &= \beta \frac{Y}{N} \delta t.  \\
 \end{align*}

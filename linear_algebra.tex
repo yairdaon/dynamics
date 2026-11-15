@@ -49,20 +49,31 @@ The \emph{determinant} of a matrix
 $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$ is the \emph{signed} area
 spanned by $u=(a,c)$, $v=(b,d)$. 
 \end{definition}
-When $0 = \det A = ad-bc$ we define the ratio $\alpha = \frac{a}{b} =
-\frac{b}{d}$, so that
+\subsubsection{Facts regarding determinants}
+\begin{enumerate}
+\item We had just shown $\det A = ad-bc$.
+
+\item From 1, when $0 = \det A = ad-bc$, define the ratio $\alpha =
+  \frac{a}{b} = \frac{c}{d}$, so that
 \[
 \begin{pmatrix}a\\c\end{pmatrix} = \alpha \begin{pmatrix}b\\d\end{pmatrix}.
 \]
-I.e. when $\det A = 0$ the columns of $A$ are parallel and the
-parallelogram they span is flat, with zero area.
+I.e. when $\det A = 0$ the columns of $A$ are parallel.
 
+\item From 1:
+\[
+\det \begin{pmatrix}a&b\\c&d\end{pmatrix} = ad-bc = ad-cb =
+\det \begin{pmatrix}a&c\\b&d\end{pmatrix}.
+\]
+ \item Therefore, from 2 and 3: $A$'s columns are parallel if and only
+   if $A$'s rows are parallel.
+\end{enumerate}
 \section{Matrix inverse}
-The inverse of $A$ is $A^{-1}$ and has the properties:
+The \emph{inverse} of $A$ is denoted $A^{-1}$ and has the properties:
 \begin{itemize}
 \item $AA^{-1} = I$.
 \item $A^{-1} A = I$.
-\item $Ax = b \Rightarrow x = A^{-1}b$.
+\item $Ax = b \Longleftrightarrow x = A^{-1}b$.
 \end{itemize}
 Only matrices with $\det A \neq 0$ have an inverse.
 
@@ -75,8 +86,8 @@ A nonzero vector $v$ is an \emph{eigenvector} of $A$ with
 
 Rearranging, $(A-\lambda I)v = 0$ for some $v\ne 0$. We saw that
 $(A-\lambda I)v$ is the combination of $(A-\lambda I)$'s two columns
-weighted by $v$'s entries. This is only possible $A$'s columns are
-parallel, i.e.
+weighted by $v$'s entries. This is only possible $(A-\lambda I)$'s
+columns are parallel, i.e.
 \[
 \det(A-\lambda I) = 0.
 \]
@@ -94,7 +105,7 @@ AP = \begin{pmatrix}Av_1 & Av_2\end{pmatrix}
    = \begin{pmatrix}\lambda_1 v_1 & \lambda_2 v_2\end{pmatrix}
    = PD, \qquad D=\begin{pmatrix}\lambda_1&0\\0&\lambda_2\end{pmatrix},
 \]
-so, if $v_1,v_2$ are independent ($P$ invertible),
+so, if $v_1,v_2$ are not parallel (so $P$ is invertible),
 \[
 A = PDP^{-1}.
 \]
@@ -102,6 +113,61 @@ $P$ is a \emph{change of basis}: $P^{-1}$ converts a vector from the
 standard basis to \emph{eigenbasis} coordinates (coefficients along
 $v_1,v_2$), and $P$ converts back. In eigenbasis coordinates $A$ acts
 as the diagonal $D$.
+
+\section{Example}
+Let
+\[
+A = \begin{pmatrix}1&2\\3&4\end{pmatrix}.
+\]
+Then $\det A = 1\cdot 4 - 2\cdot 3 = -2$ and $\operatorname{tr}A =
+1+4=5$. By the useful fact above, $A$'s eigenvalues $\lambda_1,\lambda_2$
+satisfy
+\[
+\lambda_1\lambda_2 = \det A = -2, \qquad \lambda_1+\lambda_2 =
+\operatorname{tr}A = 5.
+\]
+
+\subsection*{Finding the eigenvalues}
+From the first equation, $\lambda_1 = -2/\lambda_2$. Substituting into
+the second and dropping subscripts (we are just solving for a number
+$\lambda$ satisfying both constraints):
+\[
+-\frac{2}{\lambda} + \lambda = 5 \quad\Longrightarrow\quad \lambda^2 -
+5\lambda - 2 = 0.
+\]
+The quadratic formula gives
+\[
+\lambda_{1,2} = \frac{5\pm\sqrt{33}}{2}.
+\]
+We can check directly that their product is indeed $-2$ and their sum is $5$. So
+\[
+\lambda_1 = \frac{5+\sqrt{33}}{2}, \qquad \lambda_2 =
+\frac{5-\sqrt{33}}{2}.
+\]
+
+\subsection*{Finding the eigenvectors}
+Fix an eigenvalue $\lambda$ (either $\lambda_1$ or $\lambda_2$) and
+write
+\[
+A - \lambda I = \begin{pmatrix}1-\lambda & 2\\ 3 & 4-\lambda\end{pmatrix}.
+\]
+Writing $v=(x,y)$ explicitly, $(A-\lambda I)v=0$ is the pair of
+equations
+\begin{align*}
+(1-\lambda)x + 2y &= 0, \\
+3x+ (4-\lambda)y &= 0.
+\end{align*}
+Since $\det (A-\lambda I) = 0$, fact 4 above implies the rows of
+$A-\lambda I$ are multiples of each other, hence one of the equations
+is redundant. From the first equation,
+\[
+y = \frac{\lambda-1}{2}x.
+\]
+Taking $x=2$ gives the eigenvector
+\[
+v = \begin{pmatrix}2\\ \lambda-1\end{pmatrix},
+\]
+one for each of $\lambda=\lambda_1,\lambda_2$.
 
 \section{The determinant for a $3\times 3$ matrix}
 \[

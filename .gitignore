@@ -1,4 +1,5 @@
 *pdf
+!dynamics.pdf
 *~
 *aux
 *fdb_latexmk
@@ -6,3 +7,6 @@
 *log
 *out
 *toc
+__pycache__/
+*.csv
+*.html
