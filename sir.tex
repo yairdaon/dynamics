@@ -97,14 +97,31 @@ We now find the force of infection. First note that
   \delta t \cdot X,
 \end{align*}
 so the rate of new infections is
-\[
+\begin{equation}\label{eq:new infections}
 \text{rate of new infections} = \frac{\beta \frac{Y}{N} \delta
   t}{\delta t} X = \beta \frac{Y}{N} X.
-\]
+\end{equation}
 Therefore, in our case $\lambda_t = \beta \frac{Y}{N}$\footnote{This
 specific form is called a mass-action force of infection.}.
 
-\paragraph{What does $\beta$ mean?} See below.
+
+\paragraph{What does $\beta$ mean?}
+By eq.~\eqref{eq:new infections}, the rate of new infections is $\beta
+\frac{Y}{N}X$.  Suppose $X= N-1$, i.e. the entire population is
+susceptible, except for a single infected individual. Then this rate
+is
+\begin{align*}
+  \beta \frac{Y}{N}X &= \frac{N-1}{N} \beta Y \\
+  %
+  %
+  &= \frac{N-1}{N} \beta \text{ (taking $Y=1$)} \\
+  %
+  %
+  &\approx \beta, 
+\end{align*}
+where the last approximation holds for a large population. Thus, a
+single infected generates new infections at rate $\beta$ per time
+unit, provided the entire population is susceptible.
 
 \paragraph{What assumptions did we make?}
 Contacts do not depend on the infection state of
@@ -136,10 +153,3 @@ $S+I+R=1$ is constant. Hence one equation is redundant --- given any
 two, the third follows. It is common to drop the $\dot R$ equation and
 recover $R=1-S-I$ when needed.
 
-
-\paragraph{What does $\beta$ mean?}
-If $S_0\approx 1$ and $I_0 > 0$ then in one time unit we will have
-$\beta SI \approx \beta I$ new infections. So \emph{per individual} we
-will have $\beta$ new infections. Thus, $\beta$ is the number of new
-infections per individual per time unit that an infected individual
-can infect.

@@ -13,12 +13,12 @@ If $\lambda>0$ then $x(t)$ grows exponentialy; if $\lambda<0$ then
 $x(t)$ decays exponentialy.
 
 \section{Uncoupled linear equations}
-Now, consider two equations:
-\begin{align}
-  \dot x_1 &= \lambda_1 x_1 \\ % \qquad x_1(0)=x^{(1)}_0. \\
-  \dot x_2 &= \lambda_2 x_2.   % \qquad x_2(0)=x^{(2)}_0.
-\end{align}
-The solutions are
+Now, consider two equations with solutions:
+%% \begin{align}
+%%   \dot x_1 &= \lambda_1 x_1 \\ % \qquad x_1(0)=x^{(1)}_0. \\
+%%   \dot x_2 &= \lambda_2 x_2.   % \qquad x_2(0)=x^{(2)}_0.
+%% \end{align}
+%% The solutions are
 \[
 \begin{array}{r@{\ }c@{\ }l}
   \dot x_1 &=& \lambda_1 x_1 \\
@@ -37,10 +37,12 @@ Figure~\ref{fig:odes}.
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{visualizations/phase_portraits_real.pdf}
-\caption{Both negative: every trajectory decays to the origin
-  (\emph{stable node}). Both positive: every trajectory grows away
-  from it (\emph{unstable node}). Opposite signs: the origin attracts
-  along one axis and repels along the other (\emph{saddle}).}\label{fig:odes}
+\caption{Left to right: two negative eigenvalues result in a
+  \emph{stable node}, where every trajectory converges to the origin;
+  eigenvalues with opposite signs result in a \emph{saddle}, where the
+  origin attracts along one axis and repels along the other; two
+  positive eigenvalues result in an \emph{unstable node} with
+  diverging trajectories.}\label{fig:odes}
 \end{figure}
 
 
